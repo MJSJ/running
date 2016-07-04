@@ -1,6 +1,5 @@
 var React = require('react'),
-    ReactDom = require('react-dom'),
-    Loading = require('./modules/loading.js');
+    ReactDom = require('react-dom');
 
 import Main from "./modules/main.js"
 
@@ -12,7 +11,6 @@ var App = React.createClass({
   render:function(){
     return(
       <div className="wrap">
-        <Loading onComplete={this.onCompleteLoad} ref="loading"/>     
         <Main />
       </div>
     )
