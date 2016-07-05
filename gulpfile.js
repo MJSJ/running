@@ -80,14 +80,14 @@ gulp.task("htmlmin",function(){
 });
 
 gulp.task("cssmin",function(){
-  gulp.src(['./public/css/*.css',"!./public/css/*.min.css"]).
+  gulp.src('./public/css/*.css').
   pipe(cssmin()).
   pipe(rename({suffix: '.min'})).
   pipe(gulp.dest('./public/css'))
 });
 
 gulp.task("uglyfly",function(){
-  gulp.src(['./public/js/bundle.js',"!./public/js/*.min.js"]).
+  gulp.src('./public/js/bundle.js').
   pipe(uglyfly()).
   pipe(rename({suffix: '.min'})).
   pipe(gulp.dest('./public/js'))
