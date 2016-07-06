@@ -25,6 +25,7 @@ Main.prototype.update = function (){
  
     this.scroller.moveViewportXBy(SCROLL_SPEED);
     this.renderer.render(this.stage);
+    
     requestAnimationFrame(this.update.bind(this));
 }
 
@@ -44,11 +45,8 @@ Main.prototype.spriteSheetLoaded = function(){
   this.scroller.addTrack();
   
   var _this = this;
-
-  
-
-  // this.stage.swapChildren(this.ui.graphics,this.scroller.);
   this.renderer.render(this.stage);
+
 
   //timer
   setTimeout(function(){

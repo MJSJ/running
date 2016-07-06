@@ -26,6 +26,7 @@ Main.prototype.update = function () {
 
   this.scroller.moveViewportXBy(SCROLL_SPEED);
   this.renderer.render(this.stage);
+
   requestAnimationFrame(this.update.bind(this));
 };
 
@@ -43,8 +44,6 @@ Main.prototype.spriteSheetLoaded = function () {
   this.scroller.addTrack();
 
   var _this = this;
-
-  // this.stage.swapChildren(this.ui.graphics,this.scroller.);
   this.renderer.render(this.stage);
 
   //timer
@@ -335,6 +334,10 @@ UI.prototype.addBar = function () {
 	this.graphics.lineTo(0, FLOORY);
 	this.graphics.endFill();
 };
+
+// UI.prototype.addPlayers = function(){
+
+// }
 
 module.exports = UI;
 

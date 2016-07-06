@@ -41,6 +41,10 @@ UI.prototype.addBar = function(){
 	this.graphics.endFill();
 }
 
+// UI.prototype.addPlayers = function(){
+
+// }
+
 
 
 
