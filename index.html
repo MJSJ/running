@@ -3,12 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-  <script type="text/javascript">
-(function(){
-  var s = document.documentElement.clientWidth/640;
-  document.querySelector("meta[name='viewport']").setAttribute("content","width=device-width, initial-scale="+s+", minimum-scale="+s+", maximum-scale="+s+",minimal-ui");
-})();
-</script>
+
   <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/normalize/3.0.2/normalize.css">
   <link rel="stylesheet" href="http://apps.bdimg.com/libs/animate.css/3.1.0/animate.min.css">
   <link rel="stylesheet" type="text/css" href="./css/style.css">
@@ -22,6 +17,28 @@
 
 <body ontouchmove="event.preventDefault();">
   <div class="all" id="all"></div> 
+  <script type="text/javascript">
+    var pas;
+        pas = new pageUtil(".main");
+        pas.response();
+   
+
+    function pageUtil(selector){
+      this.ele = document.querySelectorAll(selector)[0];
+      this.scaleNum = document.documentElement.clientWidth/640;
+      return this;
+    }
+    pageUtil.prototype.response = function(selector){
+          this.ele.style.cssText = "-webkit-transform-origin: 0 0 0px; -webkit-transform: scale("+this.scaleNum+");position: absolute;width:640px;height:1136px";
+          return this;
+    }
+    pageUtil.prototype.rotate = function(){
+      this.ele["style"]["cssText"] = "width: "+1136+"px;height: "+640+"px;transform:rotate(90deg) translate(-50%,-50%);"+
+      "transform-origin:0 0; position: absolute; top: 50%; left: 50%;"
+      return this;
+    }
+  
+  </script>
 </body>
 
 <script type="text/javascript">
