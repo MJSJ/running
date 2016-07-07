@@ -2,23 +2,22 @@ var Player = require("./Player.js");
 
 var F_POSITION = 0;
 var S_POSITION = 50;
-var T_POSITION = 100;
+var T_POSITION = 400;
 var X_POSITION = 50;
 
 
 
 
 function PlayerFactory (){
-
 	this.players = [];
 }
 
-PlayerFactory.FAST_SPEED = 5;
-PlayerFactory.NORMAL_SPEED = 3;
+PlayerFactory.FAST_SPEED = 2;
+PlayerFactory.NORMAL_SPEED = 1;
 
 PlayerFactory.prototype.createMainPlayer = function(){
 	var player = new Player(X_POSITION,F_POSITION,"main_player");
-	this.palyers.push(player);
+	this.players.push(player);
 }
 
 PlayerFactory.prototype.createSecondPlayer = function(speed){
@@ -28,12 +27,12 @@ PlayerFactory.prototype.createSecondPlayer = function(speed){
 	}else{
 		player = new Player(X_POSITION,S_POSITION,"npc_player",speed);
 	}
-	this.palyers.push(player);
+	this.players.push(player);
 }
 
 PlayerFactory.prototype.createThirdPlayer = function(speed){
 	var player = new Player(X_POSITION,T_POSITION,"npc_player",speed);
-	this.palyers.push(player);
+	this.players.push(player);
 }
 
 PlayerFactory.prototype.getSinglePlayer = function(){

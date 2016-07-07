@@ -13,7 +13,11 @@ function Mid(url,width,height){
 
 }
 
-Mid.DELTA_X = 0.64;
+/**
+ * unit speed for 1 clock;
+ * @type {Number}
+ */
+Mid.DELTA_X = 0.5;
 Mid.START_Y = 365;
 Mid.constructor = Mid;
 Mid.prototype = Object.create(PIXI.extras.TilingSprite.prototype);

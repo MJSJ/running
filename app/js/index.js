@@ -10,6 +10,7 @@ var HEIGHT = window.SCREEN_HEIGHT = all.getBoundingClientRect().height / window.
 var SCROLL_SPEED = 5;
 
 var UI = require("./modules/UI.js")
+var Game = require("./modules/Game")
 
 function Main(){
   this.stage = new PIXI.Container(0xF0F0F0);
@@ -21,17 +22,17 @@ function Main(){
   this.loadSpriteSheet();
 }
 
-Main.prototype.update = function (){
+// Main.prototype.update = function (){
  
-    this.scroller.moveViewportXBy(SCROLL_SPEED);
-    this.renderer.render(this.stage);
+//     this.scroller.moveViewportXBy(SCROLL_SPEED);
+//     this.renderer.render(this.stage);
     
-    requestAnimationFrame(this.update.bind(this));
-}
+//     requestAnimationFrame(this.update.bind(this));
+// }
 
 
 Main.prototype.loadSpriteSheet = function(){
-  var assetsToLoad = ['img/icons.json'];
+  var assetsToLoad = ['img/icons.json',"img/players.json"];
   var loader = new PIXI.loaders.Loader();
   loader.add(assetsToLoad);
   loader.once("complete",this.spriteSheetLoaded.bind(this));
@@ -44,13 +45,22 @@ Main.prototype.spriteSheetLoaded = function(){
   this.ui = new UI(this.stage);
   this.scroller.addTrack();
   
+
+  ////////////////
+  // add player //
+  ////////////////
+  this.game = new Game(1,this.scroller,this.renderer);
+  this.game.init();   
+  
+
   var _this = this;
   this.renderer.render(this.stage);
 
 
   //timer
   setTimeout(function(){
-    requestAnimationFrame(_this.update.bind(_this));
+    _this.game.begin();
+    // requestAnimationFrame(_this.update.bind(_this));
   },3000);
   
 

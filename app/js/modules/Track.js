@@ -3,31 +3,39 @@ var Buoy = require("./Buoy.js");
 function Track(){
 
 	this.graphics = new PIXI.Graphics();
-	this.graphics.lineStyle(10, 0x9AB8E9, 1);
+	this.graphics.lineStyle(Track.LINE_WIDTH, 0x9AB8E9, 1);
 
 	this.drawColumn(Track.COLUMN_SPAN);
 	this.drawRow(Track.ROW_SPAN);
 
 	//  generate track graphics
 	this.texture = this.graphics.generateTexture();
- 	PIXI.Sprite.call(this,this.texture,10000,172);
+ 	PIXI.Sprite.call(this,this.texture,Track.LENGTH,172);
 
-	this.position.x = 0;
-	this.position.y = 700;
+	this.position.x = 0-Track.LINE_WIDTH;
+	this.position.y = 620-Track.LINE_WIDTH;
 
 
 	this.viewPortX = 0;
 	this.generateBuoy(Track.COLUMN_SPAN);
 }
-
-Track.DELTA_X = 0.64;
+Track.LINE_WIDTH = 10;
+Track.DELTA_X = 0.05;
 Track.COLUMN_SPAN = 850;
 Track.ROW_SPAN = 52;
+Track.LENGTH = 10000;
+Track.RUN_LENGTH = 9050;
+
+
 
 Track.constructor = Track;
 Track.prototype = Object.create(PIXI.Sprite.prototype);
 
-
+/**
+ * [ALL_VIEWPORT description]
+ * @type {[type]}
+ */
+Track.prototype.ALL_VIEWPORT = Track.RUN_LENGTH/Track.DELTA_X;
 
 
 Track.prototype.setViewportX = function(newX){

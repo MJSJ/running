@@ -4,7 +4,7 @@ function Buoy(index,x,y){
 
 	PIXI.Sprite.call(this,this.texture,Buoy.WIDTH,Buoy.HEIGHT);
 
-	this.position.x = x-Buoy.WIDTH/2;
+	this.position.x = x-Buoy.WIDTH/2+8;
 	this.position.y = y||-90;
 	this.index = index;
 }

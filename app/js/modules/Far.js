@@ -13,7 +13,11 @@ function Far(url,width,height){
 
 }
 
-Far.DELTA_X = 0.128;
+/**
+ * unit speed for 1 clock;
+ * @type {Number}
+ */
+Far.DELTA_X = 0.4;
 Far.START_Y = 336;
 
 
