@@ -44,7 +44,7 @@ Game.prototype.ready = function(){
 
 Game.prototype.begin = function(){
 	//set main player's speed
-	this.players[0].setSpeed(3);
+	this.players[0].setSpeed(10.6);
 
 	for(let i = 0;i<PLAYER_NUM;i++){
 		this.players[i].run(this.scroller,this.renderer);
@@ -54,28 +54,29 @@ Game.prototype.begin = function(){
 	//update render
 	
 	// requestAnimationFrame(this.running.bind(this));
-	this.running();
+	this.update();
 
 	
 }
 
 
-Game.prototype.running = function(){
+Game.prototype.update = function(){
 	this.timer = this.renderer.render(this.scroller.stage);
-	requestAnimationFrame(this.running.bind(this));
+	requestAnimationFrame(this.update.bind(this));
 	
 	/**
 	 * 	if all player have completed;
 	 */
 	if(this.players[0].state=="over" && this.players[1].state=="over" &&this.players[0].state=="over"){
 		this.over();
-	}else{
-		for(let i = 0;i<PLAYER_NUM;i++){
-		
-			this.players[i].run(this.scroller,this.renderer);
-
-		}
 	}
+	// else{
+	// 	for(let i = 0;i<PLAYER_NUM;i++){
+		
+	// 		this.players[i].run(this.scroller,this.renderer);
+
+	// 	}
+	// }
 	
 }
 

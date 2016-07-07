@@ -20,7 +20,7 @@ function Track(){
 	this.generateBuoy(Track.COLUMN_SPAN);
 }
 Track.LINE_WIDTH = 10;
-Track.DELTA_X = 0.05;
+Track.DELTA_X = 1.3424; //		RUN_LENGTH/speed/time
 Track.COLUMN_SPAN = 850;
 Track.ROW_SPAN = 52;
 Track.LENGTH = 10000;

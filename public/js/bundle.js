@@ -181,7 +181,7 @@ Game.prototype.ready = function () {};
 
 Game.prototype.begin = function () {
 	//set main player's speed
-	this.players[0].setSpeed(3);
+	this.players[0].setSpeed(10.6);
 
 	for (var i = 0; i < PLAYER_NUM; i++) {
 		this.players[i].run(this.scroller, this.renderer);
@@ -190,24 +190,26 @@ Game.prototype.begin = function () {
 	//update render
 
 	// requestAnimationFrame(this.running.bind(this));
-	this.running();
+	this.update();
 };
 
-Game.prototype.running = function () {
+Game.prototype.update = function () {
 	this.timer = this.renderer.render(this.scroller.stage);
-	requestAnimationFrame(this.running.bind(this));
+	requestAnimationFrame(this.update.bind(this));
 
 	/**
   * 	if all player have completed;
   */
 	if (this.players[0].state == "over" && this.players[1].state == "over" && this.players[0].state == "over") {
 		this.over();
-	} else {
-		for (var i = 0; i < PLAYER_NUM; i++) {
-
-			this.players[i].run(this.scroller, this.renderer);
-		}
 	}
+	// else{
+	// 	for(let i = 0;i<PLAYER_NUM;i++){
+
+	// 		this.players[i].run(this.scroller,this.renderer);
+
+	// 	}
+	// }
 };
 
 Game.prototype.over = function () {
@@ -295,7 +297,7 @@ function Player(x, y, role, speed) {
  * 		over
  */
 
-Player.DELTA_X = 0.05;
+Player.DELTA_X = 1.3424;
 Player.WIDTH = 40;
 Player.HEIGHT = 50;
 
@@ -313,7 +315,7 @@ Player.prototype.run = function (scroller, renderer) {
 	// scroller.stage
 	//
 	this.scroller = scroller;
-	this.renderer = renderer;
+	// this.renderer = renderer;
 
 	this.running();
 };
@@ -326,18 +328,17 @@ Player.prototype.running = function () {
 	//track move
 	if (this.role == "main_player") this.scroller.moveViewportXBy(this.speed);
 
-	// this.renderer.render(this.scroller.stage);
-	this.timer = requestAnimationFrame(this.running.bind(this));
-
 	//if player have completed
-	if (this.getViewportX() * Player.DELTA_X * this.speed > Track.RUN_LENGTH) {
-		console.log(this.getViewportX());
+	if (this.getViewportX() * Player.DELTA_X > Track.RUN_LENGTH) {
+		console.log(this.role + " " + this.getViewportX());
 		this.stopRun();
+	} else {
+		this.timer = requestAnimationFrame(this.running.bind(this));
 	}
 };
 
 Player.prototype.stopRun = function () {
-	this.setSpeed(0);
+	// this.setSpeed(0);
 	this.stop();
 	cancelAnimationFrame(this.timer);
 	this.timer = null;
@@ -507,7 +508,7 @@ function Track() {
 	this.generateBuoy(Track.COLUMN_SPAN);
 }
 Track.LINE_WIDTH = 10;
-Track.DELTA_X = 0.05;
+Track.DELTA_X = 1.3424; //		RUN_LENGTH/speed/time
 Track.COLUMN_SPAN = 850;
 Track.ROW_SPAN = 52;
 Track.LENGTH = 10000;
