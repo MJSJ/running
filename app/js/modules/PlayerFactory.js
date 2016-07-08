@@ -1,8 +1,8 @@
 var Player = require("./Player.js");
 
-var F_POSITION = 0;
-var S_POSITION = 50;
-var T_POSITION = 400;
+var F_POSITION = 350;
+var S_POSITION = F_POSITION+52;
+var T_POSITION = S_POSITION+52;
 var X_POSITION = 50;
 
 
@@ -12,11 +12,12 @@ function PlayerFactory (){
 	this.players = [];
 }
 
-PlayerFactory.FAST_SPEED = 2;
-PlayerFactory.NORMAL_SPEED = 1;
+PlayerFactory.FAST_SPEED = 10.4384;   //   100/9.58
+PlayerFactory.NORMAL_SPEED = 7.6923;
+// PlayerFactory.NORMAL_SPEED = 10.4384;
 
 PlayerFactory.prototype.createMainPlayer = function(){
-	var player = new Player(X_POSITION,F_POSITION,"main_player");
+	var player = new Player(X_POSITION-230,F_POSITION,"main_player");
 	this.players.push(player);
 }
 

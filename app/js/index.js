@@ -58,10 +58,11 @@ Main.prototype.spriteSheetLoaded = function(){
 
 
   //timer
-  setTimeout(function(){
-    _this.game.begin();
-    // requestAnimationFrame(_this.update.bind(_this));
-  },3000);
+  this.game.ready();
+  // setTimeout(function(){
+  //   _this.game.begin();
+  //   // requestAnimationFrame(_this.update.bind(_this));
+  // },3000);
   
 
 

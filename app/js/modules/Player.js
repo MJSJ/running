@@ -24,7 +24,7 @@ function Player(x,y,role,speed){
  * 		over
  */
 
-Player.DELTA_X = 1.3424;
+Player.DELTA_X = Track.DELTA_X;
 Player.WIDTH = 40;
 Player.HEIGHT = 50;
 
@@ -50,6 +50,8 @@ Player.prototype.run = function(scroller,renderer){
 
 }
 
+
+
 Player.prototype.running = function(){
 	//player position
 	this.moveViewportXBy(this.speed);
@@ -62,7 +64,8 @@ Player.prototype.running = function(){
 
 	//if player have completed
 	if(this.getViewportX() * Player.DELTA_X > Track.RUN_LENGTH){
-		console.log(this.role +" "+this.getViewportX());
+		// console.log(this.role +" "+this.getViewportX());
+		console.log(this.role +" "+this.scroller.getViewportX()+" "+ this.getViewportX());
 		this.stopRun();
 	}else{
 		this.timer = requestAnimationFrame(this.running.bind(this));

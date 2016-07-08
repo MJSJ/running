@@ -1,4 +1,5 @@
 var Buoy = require("./Buoy.js");
+var LastBuoy = require("./LastBuoy")
 
 function Track(){
 
@@ -19,14 +20,18 @@ function Track(){
 	this.viewPortX = 0;
 	this.generateBuoy(Track.COLUMN_SPAN);
 }
+
+
 Track.LINE_WIDTH = 10;
-Track.DELTA_X = 1.3424; //		RUN_LENGTH/speed/time
+
 Track.COLUMN_SPAN = 850;
 Track.ROW_SPAN = 52;
 Track.LENGTH = 10000;
-Track.RUN_LENGTH = 9050;
+Track.START_OFFSET = 350;
+Track.RUN_LENGTH = Track.COLUMN_SPAN*10+Track.START_OFFSET;
 
-
+Track.DELTA_X = Track.RUN_LENGTH/6000; //		RUN_LENGTH/speed/time
+						//  speed:10  time: 10  
 
 Track.constructor = Track;
 Track.prototype = Object.create(PIXI.Sprite.prototype);
@@ -52,11 +57,17 @@ Track.prototype.moveViewportXBy = function(offsetX){
 Track.prototype.drawColumn = function(span){
 	
 	for(let i = 0;i<10;i++){
-		this.graphics.moveTo(550+span*i,0);
-		this.graphics.lineTo(550+span*i,160);
+		this.graphics.moveTo(Track.START_OFFSET+span*i,0);
+		this.graphics.lineTo(Track.START_OFFSET+span*i,160);
 
 		this.graphics.endFill();
 	}
+
+	//last line
+	this.graphics.moveTo(Track.START_OFFSET+span*10+5,0);
+	this.graphics.lineTo(Track.START_OFFSET+span*10+5,160);
+
+	this.graphics.endFill();
 }
 
 
@@ -76,10 +87,15 @@ Track.prototype.getViewportX = function(){
 
 Track.prototype.generateBuoy = function(span){
 	for(let i = 0;i<10;i++){
-		let buoy = new Buoy(i,550+span*i);
+		let buoy = new Buoy(i,Track.START_OFFSET+span*i);
 		this.addChild(buoy);
 	}
+
+	//last flag
+	var lastFlag = new LastBuoy(10,Track.START_OFFSET+span*10);
+	this.addChild(lastFlag);
 }
+
 
 
 
