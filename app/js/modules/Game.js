@@ -1,5 +1,5 @@
 var PlayerFactory = require("./PlayerFactory.js");
-
+// var Control = require("./Contorl.js");
 
 function Game(type,scroller,renderer){
 
@@ -42,28 +42,34 @@ Game.prototype.init = function(){
 Game.prototype.ready = function(){
 	var _this = this;
 	this.state = "ready";
-	var countDowns = [];
-	for (let i=4; i > 0; i--)
-	{
-	     // let texture = PIXI.Texture.fromFrame("countDown"+i);
-	     let sprite = PIXI.Sprite.fromFrame("countDown"+i);
-	     countDowns.push(sprite);
-	};
+	// var countDowns = [];
+	// for (let i=4; i > 0; i--)
+	// {
+	//      // let texture = PIXI.Texture.fromFrame("countDown"+i);
+	//      let sprite = PIXI.Sprite.fromFrame("countDown"+i);
+	//      countDowns.push(sprite);
+	// };
 
-	this.countDown = new PIXI.extras.MovieClip(countDowns);
-	this.countDown.animationSpeed = 0.05;
-	this.countDown.position.x = 250;
-	this.countDown.position.y = 350;
+	// this.countDown = new PIXI.extras.MovieClip(countDowns);
+	// this.countDown.animationSpeed = 0.05;
+	// this.countDown.position.x = 250;
+	// this.countDown.position.y = 350;
 
 
-	this.scroller.stage.addChild(this.countDown);
-	this.countDown.play();
+	// this.scroller.stage.addChild(this.countDown);
+	// this.countDown.play();
 
-	setTimeout(function(){
-		_this.scroller.stage.removeChild(this.countDown);
-		_this.countDown.stop();
-		_this.begin();
-	},3000);
+	// setTimeout(function(){
+	// 	_this.scroller.stage.removeChild(this.countDown);
+	// 	_this.countDown.stop();
+	// 	_this.begin();
+	// },3000);
+	
+	// var control = new Control();
+	// control.countDown(this.scroller.stage,function(){
+	// 	_this.begin();
+	// });
+	
 }
 
 Game.prototype.begin = function(){
