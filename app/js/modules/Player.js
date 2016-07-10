@@ -28,6 +28,11 @@ Player.DELTA_X = Track.DELTA_X;
 Player.WIDTH = 40;
 Player.HEIGHT = 50;
 
+//hava main player completed;
+// 0： not
+// 1:  have
+Player.MAIN_PLAYER == 0;
+
 
 Player.constructor = Player;
 Player.prototype = Object.create(PIXI.extras.MovieClip.prototype);
@@ -56,20 +61,49 @@ Player.prototype.running = function(){
 	//player position
 	this.moveViewportXBy(this.speed);
 	this.setOffsetX(this.scroller);
+
+
 	this.state = "running";
 	//track move
-	if(this.role == "main_player")
+	if(this.role == "main_player"){
 		this.scroller.moveViewportXBy(this.speed);
-	
+		
+	}
+		
 
 	//if player have completed
 	if(this.getViewportX() * Player.DELTA_X > Track.RUN_LENGTH){
-		// console.log(this.role +" "+this.getViewportX());
 		console.log(this.role +" "+this.scroller.getViewportX()+" "+ this.getViewportX());
+
+		
+
 		this.stopRun();
+		if(this.role == "npc_player"){
+			// this.stopRun();
+			this.moveBack();
+		}else if(this.role =="main_player"){
+			Player.MAIN_PLAYER = 1;
+		}
 	}else{
 		this.timer = requestAnimationFrame(this.running.bind(this));
 	}
+}
+
+
+/**
+*	if first arrival player is npc  
+*   move back
+*/
+Player.prototype.moveBack = function(){
+	if(Player.MAIN_PLAYER == 1){
+		cancelAnimationFrame(this.timer);
+		this.timer = null;
+	}
+
+	this.setViewportX(Track.RUN_LENGTH/Track.DELTA_X);
+	this.setOffsetX(this.scroller);
+
+	this.timer = requestAnimationFrame(this.moveBack.bind(this));
 }
 
 Player.prototype.stopRun = function(){
@@ -97,6 +131,10 @@ Player.prototype.setOffsetX = function(scroller){
 
 Player.prototype.getViewportX = function(){
 	return this.viewPortX;
+}
+
+Player.prototype.setViewportX = function(viewPortX){
+	this.viewPortX = viewPortX;
 }
 
 

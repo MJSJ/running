@@ -49,7 +49,7 @@ Main.prototype.spriteSheetLoaded = function(){
   ////////////////
   // add player //
   ////////////////
-  this.game = new Game(1,this.scroller,this.renderer);
+  this.game = new Game(1,this.scroller,this.renderer,this.ui);
   this.game.init();   
   
 
@@ -58,7 +58,7 @@ Main.prototype.spriteSheetLoaded = function(){
 
 
   //timer
-  this.game.ready();
+  // this.game.ready();
   // setTimeout(function(){
   //   _this.game.begin();
   //   // requestAnimationFrame(_this.update.bind(_this));
