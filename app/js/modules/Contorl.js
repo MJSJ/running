@@ -1,3 +1,6 @@
+// var Control = require("./js")
+
+
 
 
 
@@ -18,7 +21,7 @@ Control.prototype.showDistance = function(){
 
 }
 
-Control.prototype.countDown = function(stage,fn){
+Control.prototype.countDown = function(){
 	var countDown0 = PIXI.Sprite.fromFrame("./countDown0");
 	countDown0.position.x = 250;
 	countDown0.position.y = 350;
@@ -35,26 +38,7 @@ Control.prototype.countDown = function(stage,fn){
 	countDown3.position.x = 250;
 	countDown3.position.y = 350;
 
-	var countDowns = [];
-	countDowns.push(countDown0);
-	countDowns.push(countDown1);
-	countDowns.push(countDown2);
-	countDowns.push(countDown3);
-
-
-	var i = 0;
-
-	var timer = setInterval(function(){
-
-		if(i !== 0){
-			stage.removeChild(countDowns[i-1]);
-		}else if(i == countDowns.length){
-			clearInterval(timer);
-			fn();
-		}
-		stage.addChild(countDowns[i]);
-		i++;
-	},1000);
+	// this.
 }
 
 
