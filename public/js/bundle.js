@@ -158,8 +158,6 @@ Controler.prototype.speedUp = function () {
 	this.preTime = this.currentTime;
 };
 
-Controler.prototype.showTimes = function () {};
-
 Controler.prototype.addButtons = function () {
 	var _this = this;
 	var button1 = new PIXI.Sprite.fromFrame("button1");
@@ -197,9 +195,8 @@ Controler.prototype.addButtons = function () {
 	});
 };
 
-Controler.prototype.recoredPrevTime = function () {
-	this.preTime = new Date().getTime();
-	this.texttrue;
+Controler.prototype.again = function () {
+	this.preTime = 0;
 };
 
 module.exports = Controler;
@@ -258,6 +255,10 @@ var PlayerFactory = require("./PlayerFactory.js");
 var Control = require("./Controler.js");
 
 function Game(type, scroller, renderer, ui, navStage) {
+	/**
+  * type 1: single
+  * 		2: dobule
+  */
 
 	this.type = type;
 	this.players = [];
@@ -288,7 +289,7 @@ Game.prototype.init = function () {
 		stage.addChild(this.players[i]);
 	}
 
-	var control = new Control(this);
+	this.control = new Control(this);
 
 	// show distance times
 	this.ui.addDistance();
@@ -375,6 +376,8 @@ Game.prototype.over = function () {
 	setTimeout(function () {
 		this.renderer.render(this.navStage);
 	}.bind(this), 2000);
+
+	this.showResult();
 };
 
 Game.prototype.showResult = function () {
@@ -382,9 +385,34 @@ Game.prototype.showResult = function () {
 	result.push({ "main_player": this.ui.getTime() });
 	result.push({ "fast_player": PlayerFactory.FAST_TIME });
 	result.push({ "normal_player": PlayerFactory.NORMAL_TIME });
+
+	document.getElementById("result").style.display = "block";
 };
 
 Game.prototype.again = function () {};
+
+Game.prototype.reInit = function () {
+	// this.stage = stage;
+	var stage = this.scroller.stage;
+	if (this.type == 1) {
+		this.players = this.playerFactory.getSinglePlayer();
+	} else if (this.type == 2) {
+		this.players = this.playerFactory.getDoublePlayer();
+	}
+
+	var l = this.players.length;
+	for (var i = 0; i < l; i++) {
+		stage.addChild(this.players[i]);
+	}
+
+	this.control.again();
+
+	// show distance times
+	// this.ui.addDistance();
+	// this.ui.addTime();
+
+	this.ready();
+};
 
 module.exports = Game;
 
@@ -1163,6 +1191,11 @@ UI.prototype.getTime = function () {
 UI.prototype.update = function (player) {
 	this.updateTime();
 	this.updateDistance(player);
+};
+
+UI.prototype.again = function () {
+	this.TimeText.text = this.time = "0.00";
+	this.distanceText = this.distance = "000";
 };
 
 module.exports = UI;

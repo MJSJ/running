@@ -6,7 +6,6 @@
 
 
   <link rel="stylesheet" type="text/css" href="./css/style.css">
-  <!-- <link rel="stylesheet" type="text/css" href="http://news.sohu.com/upload/commonzzx/normal.css"> -->
 
 
   <title>soojung</title>
@@ -35,6 +34,8 @@
 
       window.pas = new pageUtil(".all");
       pas.response();
+
+     
   
   </script>
 
@@ -46,7 +47,9 @@
   </div> -->
 
   <div id="result">
+    <div class="wrapper">
       <div id="time">9.57</div>
+      <div class="doc">和您比起来，世界飞人博尔特都甘拜下风</div>
       <div class="figures">
           <div class="figure" id="NO_1">
             <div class="time">9.58</div>
@@ -67,10 +70,11 @@
       <div class="basketbal"></div>
       <div class="shooting"></div>
   </div>
+  </div>
 </body>
 
 <script type="text/javascript">
-  var baseURL = "http://news.sohu.com/upload/shuzizhidaozzx/dist/img/";
+   new pageUtil("#result").response();
 </script>
 <script type="text/javascript" src="./js/bundle.js"></script>
 

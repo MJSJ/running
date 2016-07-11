@@ -143,6 +143,9 @@ Game.prototype.over = function(){
 		this.renderer.render(this.navStage)
 
 	}.bind(this),2000);
+
+
+	this.showResult();
 }
 
 Game.prototype.showResult = function(){
@@ -150,6 +153,8 @@ Game.prototype.showResult = function(){
 	result.push({"main_player":this.ui.getTime()});
 	result.push({"fast_player":PlayerFactory.FAST_TIME});
 	result.push({"normal_player":PlayerFactory.NORMAL_TIME});
+
+	document.getElementById("result").style.display = "block";
 }
 
 
