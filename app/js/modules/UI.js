@@ -122,6 +122,11 @@ UI.prototype.update = function(player){
 	this.updateDistance(player);
 }
 
+UI.prototype.again = function(){
+	this.TimeText.text = this.time = "0.00";
+	this.distanceText = this.distance = "000";
+}
+
 
 
 

@@ -2,6 +2,10 @@ var PlayerFactory = require("./PlayerFactory.js");
 var Control = require("./Controler.js")
 
 function Game(type,scroller,renderer,ui,navStage){
+	/**
+	 * type 1: single
+	 * 		2: dobule
+	 */
 
 	this.type = type;
 	this.players = [];
@@ -33,7 +37,7 @@ Game.prototype.init = function(){
 		stage.addChild(this.players[i]);
 	}
 
-	var control = new Control(this);
+	this.control = new Control(this);
 
 	// show distance times
 	this.ui.addDistance();
@@ -152,5 +156,31 @@ Game.prototype.showResult = function(){
 Game.prototype.again = function(){
 
 }
+
+
+Game.prototype.reInit = function(){
+	// this.stage = stage;
+	var stage = this.scroller.stage;
+	if(this.type == 1){
+		this.players = this.playerFactory.getSinglePlayer();
+	}else if(this.type == 2){
+		this.players = this.playerFactory.getDoublePlayer();
+	}
+
+	var l = this.players.length;
+	for(let i = 0;i<l;i++){
+		stage.addChild(this.players[i]);
+	}
+
+	this.control.again();
+
+	// show distance times
+	// this.ui.addDistance();
+	// this.ui.addTime();
+
+	this.ready();
+	
+}
+
 
 module.exports = Game;

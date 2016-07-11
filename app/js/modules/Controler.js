@@ -46,9 +46,6 @@ Controler.prototype.speedUp = function(){
 	this.preTime = this.currentTime;
 }
 
-Controler.prototype.showTimes = function(){
-
-}
 
 Controler.prototype.addButtons = function(){
 	var _this = this;
@@ -89,10 +86,9 @@ Controler.prototype.addButtons = function(){
 	})
 }
 
-Controler.prototype.recoredPrevTime = function(){
-	this.preTime = new Date().getTime();
-	this.texttrue
-}
 
+Controler.prototype.again = function(){
+	this.preTime = 0;
+}
 
 module.exports = Controler;
