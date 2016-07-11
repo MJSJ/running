@@ -96,7 +96,7 @@ UI.prototype.updateTime = function(){
 	var diffMilliseconds = Math.floor(((currentTime-this.startTime)%1000)/10);
 	var diffMillisecondsText = (diffMilliseconds<10)?("0"+diffMilliseconds):diffMilliseconds;
 
-	this.TimeText.text = diffSeconds+"." + diffMillisecondsText;
+	this.TimeText.text = this.time =  diffSeconds+"." + diffMillisecondsText;
 }
 
 
@@ -110,6 +110,10 @@ UI.prototype.updateDistance = function(player){
 		this.distanceText.text  = "100"
 	}
 	
+}
+
+UI.prototype.getTime = function(){
+	return this.time;
 }
 
 

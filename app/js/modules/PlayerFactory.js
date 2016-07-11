@@ -14,6 +14,9 @@ function PlayerFactory (){
 
 PlayerFactory.FAST_SPEED = 10.4384;   //   100/9.58
 PlayerFactory.NORMAL_SPEED = 7.6923;
+
+Player.FAST_TIME = 9.58;
+Player.NORMAL_TIME = 13;
 // PlayerFactory.NORMAL_SPEED = 10.4384;
 
 PlayerFactory.prototype.createMainPlayer = function(){

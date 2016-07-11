@@ -1,7 +1,7 @@
 var PlayerFactory = require("./PlayerFactory.js");
 var Control = require("./Controler.js")
 
-function Game(type,scroller,renderer,ui){
+function Game(type,scroller,renderer,ui,navStage){
 
 	this.type = type;
 	this.players = [];
@@ -13,6 +13,7 @@ function Game(type,scroller,renderer,ui){
 	this.timer = null;
 	this.ALL_VIEWPORT = this.scroller.track.ALL_VIEWPORT;
 	this.state = null;
+	this.navStage = navStage;
 
 }
 
@@ -79,7 +80,7 @@ Game.prototype.begin = function(){
 	this.state = "begin";
 
 	//set main player's speed
-	// this.players[0].setSpeed(9);
+	// this.players[0].setSpeed(10.4384);
 
 
 	// this.onSpeedChange();
@@ -107,7 +108,7 @@ Game.prototype.update = function(){
 	}
 
 	
-	this.timer = requestAnimationFrame(this.update.bind(this));
+	this.timer = webkitRequestAnimationFrame(this.update.bind(this));
 	
 	
 	/**
@@ -128,8 +129,23 @@ Game.prototype.over = function(){
 		this.players[i].stopRun(this.scroller,this.renderer);
 	}
 
-	cancelAnimationFrame(this.timer);
+	webkitCancelAnimationFrame(this.timer);
 	this.timer = null;
+
+	window.main_player_time = this.ui.getTime();
+	// console.log(this.ui.getTime());
+	this.scroller.stage.removeChildren();
+	setTimeout(function(){
+		this.renderer.render(this.navStage)
+
+	}.bind(this),2000);
+}
+
+Game.prototype.showResult = function(){
+	window.result = [];
+	result.push({"main_player":this.ui.getTime()});
+	result.push({"fast_player":PlayerFactory.FAST_TIME});
+	result.push({"normal_player":PlayerFactory.NORMAL_TIME});
 }
 
 

@@ -13,7 +13,7 @@ function Player(x,y,role,speed){
 
 	//world coordinate x
 	this.viewPortX = 0;
-	this.animationSpeed = 0.1;
+	this.animationSpeed = 0;
 
 	this.timer = null;
 }
@@ -36,6 +36,10 @@ Player.MAIN_PLAYER == 0;
 
 Player.constructor = Player;
 Player.prototype = Object.create(PIXI.extras.MovieClip.prototype);
+
+Player.prototype.updateAnimationSpeed = function(){
+	this.animationSpeed = this.speed/50;
+}
 
 Player.prototype.run = function(scroller,renderer){
 	
@@ -62,21 +66,19 @@ Player.prototype.running = function(){
 	this.moveViewportXBy(this.speed);
 	this.setOffsetX(this.scroller);
 
+	//player animation speed
+	this.updateAnimationSpeed();
 
 	this.state = "running";
 	//track move
 	if(this.role == "main_player"){
 		this.scroller.moveViewportXBy(this.speed);
-		
 	}
 		
 
 	//if player have completed
 	if(this.getViewportX() * Player.DELTA_X > Track.RUN_LENGTH){
 		console.log(this.role +" "+this.scroller.getViewportX()+" "+ this.getViewportX());
-
-		
-
 		this.stopRun();
 		if(this.role == "npc_player"){
 			// this.stopRun();
@@ -85,7 +87,7 @@ Player.prototype.running = function(){
 			Player.MAIN_PLAYER = 1;
 		}
 	}else{
-		this.timer = requestAnimationFrame(this.running.bind(this));
+		this.timer = webkitRequestAnimationFrame(this.running.bind(this));
 	}
 }
 
@@ -96,20 +98,20 @@ Player.prototype.running = function(){
 */
 Player.prototype.moveBack = function(){
 	if(Player.MAIN_PLAYER == 1){
-		cancelAnimationFrame(this.timer);
+		webkitCancelAnimationFrame(this.timer);
 		this.timer = null;
 	}
 
 	this.setViewportX(Track.RUN_LENGTH/Track.DELTA_X);
 	this.setOffsetX(this.scroller);
 
-	this.timer = requestAnimationFrame(this.moveBack.bind(this));
+	this.timer = webkitRequestAnimationFrame(this.moveBack.bind(this));
 }
 
 Player.prototype.stopRun = function(){
 	// this.setSpeed(0);
 	this.stop();
-	cancelAnimationFrame(this.timer);
+	webkitCancelAnimationFrame(this.timer);
 	this.timer = null;
 	this.state = "over";
 }
