@@ -38,10 +38,10 @@ Main.prototype.spriteSheetLoaded = function () {
 
 Main.prototype.showNavigator = function () {
   this.navStage = new PIXI.Container(0xF0F0F0);
-  var page1 = new Page1(this.renderer, this.navStage);
-  page1.startBtn.on("tap", function () {
+  this.page1 = new Page1(this.renderer, this.navStage);
+  this.page1.startBtn.on("tap", function () {
     this.setupGame();
-    page1.stopAnimation();
+    this.page1.stopAnimation();
   }.bind(this));
 };
 
@@ -53,7 +53,8 @@ Main.prototype.setupGame = function () {
   ////////////////
   // add player //
   ////////////////
-  this.game = new Game(1, this.scroller, this.renderer, this.ui, this.navStage);
+
+  window.game = this.game = new Game(1, this.page1.type, this.scroller, this.renderer, this.ui, this.navStage);
   this.game.init();
 
   var _this = this;
@@ -253,14 +254,22 @@ module.exports = Far;
 
 var PlayerFactory = require("./PlayerFactory.js");
 var Control = require("./Controler.js");
-
-function Game(type, scroller, renderer, ui, navStage) {
+// var $ = require("zepto")
+// var $ = window.$;
+function Game(role, type, scroller, renderer, ui, navStage) {
 	/**
   * type 1: single
   * 		2: dobule
   */
 
 	this.type = type;
+	/**
+  * role 1: main
+  * 		2: second
+  */
+
+	this.role = role;
+
 	this.players = [];
 	this.scroller = scroller;
 	this.playerFactory = new PlayerFactory(scroller);
@@ -298,7 +307,13 @@ Game.prototype.init = function () {
 	this.ready();
 };
 
-Game.prototype.ready = function () {
+/**
+ * [ready description]
+ * @Author   yursile
+ * @DateTime 2016-07-12T17:54:36+0800
+ * @param    {[type]}                 again 
+ */
+Game.prototype.ready = function (again) {
 	var _this = this;
 	this.state = "ready";
 	var countDowns = [];
@@ -319,12 +334,15 @@ Game.prototype.ready = function () {
 
 	this.update();
 	setTimeout(function () {
-
-		_this.begin();
+		if (again) {
+			_this.again();
+		} else {
+			_this.begin();
+		}
 	}, 3000);
 };
 
-Game.prototype.begin = function () {
+Game.prototype.begin = function (fn) {
 	this.countDown.stop();
 	this.scroller.stage.removeChild(this.countDown);
 	this.state = "begin";
@@ -371,29 +389,132 @@ Game.prototype.over = function () {
 	this.timer = null;
 
 	window.main_player_time = this.ui.getTime();
-	// console.log(this.ui.getTime());
+
 	this.scroller.stage.removeChildren();
 	setTimeout(function () {
 		this.renderer.render(this.navStage);
 	}.bind(this), 2000);
 
+	/**
+  * post this time and role
+  * 		wait the server return other time;
+  */
+
 	this.showResult();
 };
 
 Game.prototype.showResult = function () {
-	window.result = [];
-	result.push({ "main_player": this.ui.getTime() });
-	result.push({ "fast_player": PlayerFactory.FAST_TIME });
-	result.push({ "normal_player": PlayerFactory.NORMAL_TIME });
 
-	document.getElementById("result").style.display = "block";
+	// var result = [];
+	var main_player_time = this.ui.getTime();
+	// result.push({
+	// 	name:"main",
+	// 	time:main_player_time
+	// });
+	// result.push({
+	// 	name:"npc",
+	// 	time:PlayerFactory.FAST_TIME
+	// });
+	// result.push({
+	// 	name:"npc",
+	// 	time:PlayerFactory.NORMAL_TIME
+	// });
+
+	var result = this.getRank();
+
+	for (var i = 1; i <= result.length; i++) {
+		document.querySelector("#NO_" + i + " .time").innerHTML = result[i - 1].time + "s";
+		document.querySelector("#NO_" + i + " .player").className = "player " + result[i - 1].name;
+	}
+
+	//comment
+	var comment = "";
+	if (main_player_time < 9.58) {
+		comment = "和您比起来，世界飞人博尔特都甘拜下风";
+	} else if (main_player_time >= 9.58 && main_player_time < 13) {
+		comment = "跑出了国家运动员的水准";
+	} else {
+		comment = "是时候该节食了";
+	}
+
+	document.querySelector(".doc").innerHTML = comment;
+	document.querySelector("#time").innerHTML = main_player_time + "s";
+
+	setTimeout(function () {
+		document.getElementById("result").style.display = "block";
+	}, 500);
 };
 
-Game.prototype.again = function () {};
+Game.prototype.getRank = function () {
+	var array = [];
+	var _this = this;
+	if (this.type == 1) {
+		array.push({
+			name: "main",
+			time: _this.ui.getTime()
+		});
+		array.push({
+			name: "npc",
+			time: PlayerFactory.FAST_TIME
+		});
+		array.push({
+			name: "npc",
+			time: PlayerFactory.NORMAL_TIME
+		});
+	} else if (this.type == 2) {
+		array.push({
+			name: "main",
+			time: _this.role == 1 ? _this.ui.getTime() : _this.getOtherTime()
+		});
+		array.push({
+			name: "second",
+			time: _this.role == 2 ? _this.ui.getTime() : _this.getOtherTime()
+		});
+		array.push({
+			name: "npc",
+			time: PlayerFactory.NORMAL_TIME
+		});
+	}
+
+	var swap = {};
+	for (var i = 1; i < array.length; i++) {
+		if (array[i].time < array[i - 1].time) {
+			swap.time = array[i].time;
+			array[i].time = array[i - 1].time;
+			array[i - 1].time = swap.time;
+
+			swap.name = array[i].name;
+			array[i].name = array[i - 1].name;
+			array[i - 1].name = swap.name;
+		}
+	}
+	if (array[1] > array[2]) {
+		swap.time = array[1].time;
+		array[1].time = array[2].time;
+		array[2].time = swap.time;
+
+		swap.name = array[1].name;
+		array[1].name = array[2].name;
+		array[2].name = swap.name;
+	}
+
+	return array;
+};
+
+Game.prototype.again = function () {
+	this.countDown.stop();
+	this.scroller.stage.removeChild(this.countDown);
+	this.state = "begin";
+
+	for (var i = 0; i < PLAYER_NUM; i++) {
+		this.players[i].run(this.scroller, this.renderer);
+	}
+};
 
 Game.prototype.reInit = function () {
 	// this.stage = stage;
 	var stage = this.scroller.stage;
+	this.playerFactory.removePlayers();
 	if (this.type == 1) {
 		this.players = this.playerFactory.getSinglePlayer();
 	} else if (this.type == 2) {
@@ -411,7 +532,7 @@ Game.prototype.reInit = function () {
 	// this.ui.addDistance();
 	// this.ui.addTime();
 
-	this.ready();
+	this.ready(true);
 };
 
 module.exports = Game;
@@ -601,11 +722,14 @@ Page1.prototype.addWelcom = function () {
 };
 
 Page1.prototype.addSingle = function () {
-	this.single_player = new PIXI.Sprite.fromFrame("single_player1");
+	this.single_player = new PIXI.Sprite.fromFrame("single_player1_active");
 	this.single_player.position.x = 0;
 	this.single_player.position.y = 400;
 	this.single_player.interactive = true;
+	// this.single_player.texture = this.TEXTURE_SINGLE_ACTIVE;
+	this.type = 1;
 	this.single_player.on("tap", function () {
+		this.type = 1;
 		this.single_player.texture = this.TEXTURE_SINGLE_ACTIVE;
 		this.double_player.texture = this.TEXTURE_DOUBLE;
 	}.bind(this));
@@ -618,6 +742,7 @@ Page1.prototype.addDouble = function () {
 	this.double_player.position.y = 466;
 	this.double_player.interactive = true;
 	this.double_player.on("tap", function () {
+		this.type = 2;
 		this.double_player.texture = this.TEXTURE_DOUBLE_ACTIVE;
 		this.single_player.texture = this.TEXTURE_SINGLE;
 	}.bind(this));
@@ -892,8 +1017,8 @@ function PlayerFactory() {
 PlayerFactory.FAST_SPEED = 10.4384; //   100/9.58
 PlayerFactory.NORMAL_SPEED = 7.6923;
 
-Player.FAST_TIME = 9.58;
-Player.NORMAL_TIME = 13;
+PlayerFactory.FAST_TIME = Player.FAST_TIME = 9.58;
+PlayerFactory.NORMAL_TIME = Player.NORMAL_TIME = 13;
 // PlayerFactory.NORMAL_SPEED = 10.4384;
 
 PlayerFactory.prototype.createMainPlayer = function () {
@@ -932,6 +1057,10 @@ PlayerFactory.prototype.getDoublePlayer = function () {
 	return this.players;
 };
 
+PlayerFactory.prototype.removePlayers = function () {
+	this.players = [];
+};
+
 module.exports = PlayerFactory;
 
 },{"./Player.js":9}],11:[function(require,module,exports){
@@ -946,9 +1075,11 @@ function Scroller(stage) {
 	this.farbg = new Far('rear', 995, 204);
 	this.midbg = new Mid('front', 995, 212);
 	// this.track = new Track();
+	this.addClouds();
 
 	stage.addChild(this.farbg);
 	stage.addChild(this.midbg);
+	stage.addChild(this.clouds);
 	// stage.addChild(this.track);
 	this.viewportX = 0;
 }
@@ -968,7 +1099,7 @@ Scroller.prototype.moveViewportXBy = function (offsetX) {
 	if (this.farbg) this.farbg.moveViewportXBy(offsetX);
 	if (this.midbg) this.midbg.moveViewportXBy(offsetX);
 	if (this.track) this.track.moveViewportXBy(offsetX);
-
+	if (this.clouds) this.clouds.position.x -= offsetX / 10;
 	this.viewportX = this.getViewportX() + offsetX;
 };
 
@@ -976,6 +1107,28 @@ Scroller.prototype.addTrack = function (span) {
 
 	this.track = new Track();
 	this.stage.addChild(this.track);
+};
+
+Scroller.prototype.addClouds = function () {
+	this.clouds = new PIXI.Container();
+	var cloud1 = new PIXI.Sprite.fromFrame("cloud");
+	cloud1.position.x = 30;
+	cloud1.position.y = 50;
+	this.clouds.addChild(cloud1);
+
+	var cloud2 = new PIXI.Sprite.fromFrame("cloud");
+	cloud2.position.x = 400;
+	cloud2.position.y = 230;
+	this.clouds.addChild(cloud2);
+
+	var cloud3 = new PIXI.Sprite.fromFrame("cloud");
+	cloud3.position.x = 760;
+	cloud3.position.y = 60;
+	this.clouds.addChild(cloud3);
+
+	this.clouds.position.x = 0;
+
+	this.stage.addChild(this.clouds);
 };
 
 module.exports = Scroller;

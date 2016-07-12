@@ -7,7 +7,43 @@
 
   <link rel="stylesheet" type="text/css" href="./css/style.css">
 
+  <style type="text/css">
+    /*声明 WebFont*/
+@font-face {
+  font-family: '方正兰亭黑_GBK';
+  src: url('./font/方正兰亭黑_GBK.eot');
+  src:
+    url('./font/方正兰亭黑_GBK.eot?#font-spider') format('embedded-opentype'),
+    url('./font/方正兰亭黑_GBK.woff') format('woff'),
+    url('./font/方正兰亭黑_GBK.ttf') format('truetype'),
+    url('./font/方正兰亭黑_GBK.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
 
+
+@font-face {
+  font-family: '兰亭粗黑';
+  src: url('./font/兰亭粗黑.eot');
+  src:
+    url('./font/兰亭粗黑.eot?#font-spider') format('embedded-opentype'),
+    url('./font/兰亭粗黑.woff') format('woff'),
+    url('./font/兰亭粗黑.ttf') format('truetype'),
+    url('./font/兰亭粗黑.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/*使用选择器指定字体*/
+body{
+    font-family: '方正兰亭黑_GBK';
+}
+
+
+#result{
+  font-family: '兰亭粗黑';
+}
+  </style>
   <title>soojung</title>
 </head>
 
@@ -36,45 +72,100 @@
       pas.response();
 
      
-  
   </script>
 
-
-<!--   <div class="main">
-    <div class="single_player"></div>
-    <div class="dobule_player"></div>
-    <div class="start"></div>
+<!--   <div id="specification1">
+    <div class="close"></div>
+    <div class="detail">玩法说明</div>
+    <div class="title">单人玩家</div>
+    
+    <div class="doc_box">
+      <div >通过交替点击左右脚，</div>
+      <div >控制小人跑步，</div>
+      <div >速度越快，跑得越快，</div>
+      <div >快来挑战吧~</div>
+    </div>
   </div> -->
 
+
+  <div id="specification2">
+    <div class="close"></div>
+    <div class="detail">玩法说明</div>
+    <div class="title">双人玩家</div>
+    
+    <div class="doc_box">
+      <div class="p1">邀请好友微信扫描二维码，</div>
+      <div>进入双人玩家模式；</div>
+      <div class="p2">控制小人跑步，</div>
+      <div >通过交替点击左右脚，</div>
+      <div >控制各自小人跑步，</div>
+      <div>速度越快，跑得越快。</div>
+      <div>快和你的小伙伴一比高下吧~~</div>
+    </div>
+
+    <div class="ewm_wrapper">
+      <div class="ewm_box"></div>
+      <div class="scanme">扫 我 扫 我 扫 我</div>
+    </div>
+
+  </div>
+
   <div id="result">
+    <div style="display:none">0123456789.跑出了国家运动员的水准~~是时候该节食了~~兄弟，今晚烤串我包啦！！兄弟，今晚烤串我包啦！！</div>
     <div class="wrapper">
       <div id="time">9.57</div>
       <div class="doc">和您比起来，世界飞人博尔特都甘拜下风</div>
       <div class="figures">
           <div class="figure" id="NO_1">
-            <div class="time">9.58</div>
-            <div class="player"></div>
+            <div class="time">9.58s</div>
+            <div class="player main"></div>
           </div>
           <div class="figure" id="NO_2">
-            <div class="time">9.57</div>
-            <div class="player"></div>
+            <div class="time">9.57s</div>
+            <div class="player second"></div>
           </div>
           <div class="figure" id="NO_3">
-            <div class="time">13</div>
-            <div class="player"></div>
+            <div class="time">13s</div>
+            <div class="player npc"></div>
           </div>
       </div>
 
       <div class="agian"></div>
       <div class="share"></div>
-      <div class="basketbal"></div>
-      <div class="shooting"></div>
+      <div class="basketbal" data-url="#"></div>
+      <div class="shooting" data-url="#"></div>
+    </div>
+
+    <div class="shareCover">
+        <div class="shareFlag"></div>
+    </div>
   </div>
-  </div>
+
+
+
 </body>
 
+
+<!-- <script type="text/javascript" src="http://apps.bdimg.com/libs/zepto/1.1.4/zepto.min.js"></script> -->
 <script type="text/javascript">
-   new pageUtil("#result").response();
+  new pageUtil("#result").response();
+  // new pageUtil("#specification1").response();
+  new pageUtil("#specification2").response();
+  document.querySelector(".agian").addEventListener("click",function(){
+    document.querySelector("#result").style.display = "none";
+    window.game.reInit();
+  },false);
+
+  document.querySelector(".close").addEventListener("click",function(){
+    document.querySelector("#specification").style.display = "none";
+  },false);
+
+  document.querySelector(".basketbal").addEventListener("click",function(){
+    document.location.href = this.dataset.url;
+  },false)
+  document.querySelector(".shooting").addEventListener("click",function(){
+    document.location.href = this.dataset.url;
+  },false)
 </script>
 <script type="text/javascript" src="./js/bundle.js"></script>
 
