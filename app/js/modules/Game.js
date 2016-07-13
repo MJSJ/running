@@ -145,8 +145,13 @@ Game.prototype.begin = function(fn){
 Game.prototype.update = function(){
 	if(this.state == "begin" ){
 		this.renderer.render(this.scroller.stage);
-		if(this.players[0].state !== "over"){
+		/**
+		 * if main player has not completed
+		 */
+		if(this.role ==1 && this.players[0].state !== "over"){
 			this.ui.update(this.players[0]);
+		}else if(this.role ==2 && this.players[1].state !== "over"){
+			this.ui.update(this.players[1]);
 		}
 	}else if(this.state == "ready"){
 		this.renderer.render(this.scroller.stage);
@@ -169,6 +174,7 @@ Game.prototype.update = function(){
 
 Game.prototype.over = function(){
 	this.state = "over";
+	var _this = this;
 	var l = this.players.length;
 	for(let i = 0;i<l;i++){
 		this.players[i].stopRun(this.scroller,this.renderer);
@@ -179,10 +185,7 @@ Game.prototype.over = function(){
 
 	window.main_player_time = this.ui.getTime();
 
-	this.scroller.stage.removeChildren();
-	setTimeout(function(){
-		this.renderer.render(this.navStage)
-	}.bind(this),2000);
+	
 
 	/**
 	 * post this time and role
@@ -190,7 +193,25 @@ Game.prototype.over = function(){
 	 */
 
 
-	this.showResult();
+	 if(this.type == 2){
+	 	window.Interact.socket.emit("completeTime",{room_id:window.Interact.roomID,role:this.role,time:this.ui.getTime()});
+	 	window.Interact.socket.on("completed",function(data){
+	 		_this.otherTime = data.time;
+
+	 		this.scroller.stage.removeChildren();
+			setTimeout(function(){
+				this.renderer.render(this.navStage)
+			}.bind(_this),2000);
+			this.showResult();
+	 	})
+	 }else{
+	 	this.scroller.stage.removeChildren();
+		setTimeout(function(){
+			this.renderer.render(this.navStage)
+		}.bind(this),2000);
+		this.showResult();
+	 }
+
 }
 
 Game.prototype.showResult = function(){
@@ -247,11 +268,11 @@ Game.prototype.getRank = function(){
 	}else if(this.type == 2){
 		array.push({
 			name:"main",
-			time:_this.role == 1 ? _this.ui.getTime():_this.getOtherTime()
+			time:_this.role == 1 ? _this.ui.getTime():_this.otherTime
 		});
 		array.push({
 			name:"second",
-			time:_this.role == 2 ? _this.ui.getTime():_this.getOtherTime()
+			time:_this.role == 2 ? _this.ui.getTime():_this.otherTime
 		});
 		array.push({
 			name:"npc",
@@ -298,6 +319,7 @@ Game.prototype.again = function(){
 
 	}
 }
+
 
 
 Game.prototype.reInit = function(){
