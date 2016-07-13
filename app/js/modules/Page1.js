@@ -129,11 +129,14 @@ Page1.prototype.addWelcom = function(){
 
 
 Page1.prototype.addSingle = function(){
-	this.single_player = new PIXI.Sprite.fromFrame("single_player1");
+	this.single_player = new PIXI.Sprite.fromFrame("single_player1_active");
 	this.single_player.position.x = 0;
 	this.single_player.position.y = 400;
 	this.single_player.interactive = true;
+	// this.single_player.texture = this.TEXTURE_SINGLE_ACTIVE;
+	this.type = 1;
 	this.single_player.on("tap",function(){
+		this.type = 1;
 		this.single_player.texture = this.TEXTURE_SINGLE_ACTIVE;
 		this.double_player.texture = this.TEXTURE_DOUBLE;
 	}.bind(this))
@@ -146,6 +149,7 @@ Page1.prototype.addDouble = function(){
 	this.double_player.position.y = 466;
 	this.double_player.interactive = true;
 	this.double_player.on("tap",function(){
+		this.type = 2;
 		this.double_player.texture = this.TEXTURE_DOUBLE_ACTIVE;
 		this.single_player.texture = this.TEXTURE_SINGLE;
 	}.bind(this))

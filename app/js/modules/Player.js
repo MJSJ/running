@@ -1,15 +1,15 @@
 var Track = require("./Track.js")
 
 
-function Player(x,y,role,speed){
-	this.role = role;
+function Player(role,x,y,textureImg,speed){
+	this.textureImg = textureImg;
 	this.textureArray = this.generateTexture();
 	PIXI.extras.MovieClip.call(this,this.textureArray);
 
 	this.position.x = x;
 	this.position.y = y;
 	this.speed = speed||0;
-
+	this.role = role;
 
 	//world coordinate x
 	this.viewPortX = 0;
@@ -71,21 +71,20 @@ Player.prototype.running = function(){
 
 	this.state = "running";
 	//track move
-	if(this.role == "main_player"){
+	if(this.isMainPlayer()){
 		this.scroller.moveViewportXBy(this.speed);
 	}
 		
 
 	//if player have completed
 	if(this.getViewportX() * Player.DELTA_X > Track.RUN_LENGTH){
-		console.log(this.role +" "+this.scroller.getViewportX()+" "+ this.getViewportX());
+		console.log(this.textureImg +" "+this.scroller.getViewportX()+" "+ this.getViewportX());
 		this.stopRun();
-		if(this.role == "npc_player"){
+		if(!this.isMainPlayer()){
 			// this.stopRun();
 			this.moveBack();
-		}else if(this.role =="main_player"){
+		}else 
 			Player.MAIN_PLAYER = 1;
-		}
 	}else{
 		this.timer = webkitRequestAnimationFrame(this.running.bind(this));
 	}
@@ -106,6 +105,10 @@ Player.prototype.moveBack = function(){
 	this.setOffsetX(this.scroller);
 
 	this.timer = webkitRequestAnimationFrame(this.moveBack.bind(this));
+}
+
+Player.prototype.isMainPlayer = function(){
+	return (this.textureImg == "main_player" && this.role ==1)||(this.textureImg =="second_player"&&this.role ==2);
 }
 
 Player.prototype.stopRun = function(){
@@ -148,7 +151,7 @@ Player.prototype.generateTexture = function(){
 	var textureArray = [];
 	for (let i=1; i < 4; i++)
 	{
-	     var texture = PIXI.Texture.fromFrame(this.role+i);
+	     var texture = PIXI.Texture.fromFrame(this.textureImg+i);
 	     textureArray.push(texture);
 	};
 	return textureArray;

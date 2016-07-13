@@ -2,6 +2,7 @@
 var PIXI = require('pixi.js');
 var Scroller = require("./modules/Scroller.js");
 var Page1 = require("./modules/Page1.js")
+var Interact = require("./modules/Socket.js");
 
 var all  = document.getElementById("all");
 var WIDTH = window.SCREEN_WIDTH =  all.getBoundingClientRect().width/ window.pas.scaleNum;
@@ -37,31 +38,98 @@ Main.prototype.spriteSheetLoaded = function(){
 
 }
 
+Main.prototype.isSecond = function(){
+  var arg = window.location.search.slice(1);
+  var arr = arg.split("&");
+  var obj ={};
+  for(let i in arr){
+      let temp = arr[i].split("=");
+      obj[temp[0]] = temp[1]
+  }
+
+  var roomid = obj.roomid;
+  if(roomid){
+    this.role = 2;
+    this.page1.type  = 2;
+    return true;
+  }else{
+    this.role = 1;
+    return false;
+  }
+}
+
 Main.prototype.showNavigator = function(){
   this.navStage = new PIXI.Container(0xF0F0F0);
-  var page1 = new Page1(this.renderer,this.navStage);
-  page1.startBtn.on("tap",function(){
-    this.setupGame();
-    page1.stopAnimation();
-  }.bind(this))
+  this.page1 = new Page1(this.renderer,this.navStage);
+  this.page1.startBtn.on("tap",this.toStart.bind(this))
 
+
+  if(this.isSecond()){
+    this.page1.double_player.emit("tap");
+    this.toStart();
+  }
+}
+
+Main.prototype.toStart = function(){
+  var _this = this;
+  if(this.page1.type == 1){
+    this.setupGame();
+    this.page1.stopAnimation();
+  }else{
+    window.Interact.init();
+    window.Interact.generateQR(document.querySelector(".ewm_box"));
+    document.querySelector("#specification2").style.display = "block";
+
+
+    // monitor other player enter
+    
+    window.Interact.onMatched(function(){
+      _this.setupGame();
+      document.querySelector("#specification2").style.display = "none";
+      document.querySelector("#match_success").style.display = "block";
+
+      // set
+    });
+
+  }
 }
 
 Main.prototype.setupGame = function(){
-  this.scroller = new Scroller(this.stage);
-  this.ui = new UI(this.stage);
-  this.scroller.addTrack();
-  
 
-  ////////////////
-  // add player //
-  ////////////////
-  this.game = new Game(1,this.scroller,this.renderer,this.ui,this.navStage);
-  this.game.init();   
-  
+  // if(this.game){
+  //   this.reSetupGame();
+  // }else{
 
-  var _this = this;
-  this.renderer.render(this.stage);
+    this.scroller = new Scroller(this.stage);
+    this.ui = new UI(this.stage);
+    this.scroller.addTrack();
+    
+
+    ////////////////
+    // add player //
+    ////////////////
+    
+    /**
+     * [game description]
+     * @role 1 ,  2
+     * @type 1 single 2 double
+     */
+    window.game = this.game = new Game(this.role,this.page1.type,this.scroller,this.renderer,this.ui,this.navStage);
+    this.game.init();   
+    
+    this.renderer.render(this.stage);
+  // }
+}
+
+
+Main.prototype.reSetupGame = function(){
+   // window.game = this.game = new Game(1,this.page1.type,this.scroller,this.renderer,this.ui,this.navStage);
+   this.game.type = this.page1.type;
+
+
+
+   this.game.reInit();
+   this.renderer.render(this.stage);
 }
 
 window.main = new Main();
