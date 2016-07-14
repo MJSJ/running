@@ -1,14 +1,14 @@
 {
 	"frames": {
 
-		"main_player1":{
+		"main_player2":{
 			"frame": {"x":0,"y":0,"w":552,"h":316},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {"x":0,"y":0,"w":552,"h":316},
 			"sourceSize": {"w":552,"h":316}
 		},
-		"main_player2":{
+		"main_player1":{
 			"frame": {"x":552,"y":0,"w":552,"h":316},
 			"rotated": false,
 			"trimmed": false,
@@ -24,14 +24,14 @@
 		},
 
 		
-		"second_player1":{
+		"second_player2":{
 			"frame": {"x":0,"y":400,"w":552,"h":316},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {"x":0,"y":400,"w":552,"h":316},
 			"sourceSize": {"w":552,"h":316}
 		},
-		"second_player2":{
+		"second_player1":{
 			"frame": {"x":552,"y":400,"w":552,"h":316},
 			"rotated": false,
 			"trimmed": false,

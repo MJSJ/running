@@ -85,6 +85,7 @@ Main.prototype.toStart = function(){
     
     window.Interact.onMatched(function(){
       _this.setupGame();
+      _this.page1.stopAnimation();
       document.querySelector("#specification2").style.display = "none";
       document.querySelector("#match_success").style.display = "block";
 

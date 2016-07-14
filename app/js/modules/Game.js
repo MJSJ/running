@@ -46,7 +46,7 @@ Game.prototype.init = function(){
 		stage.addChild(this.players[i]);
 	}
 
-	this.control = new Control(this);
+	this.control = new Control(this,this.role);
 
 	// show distance times
 	this.ui.addDistance();
@@ -150,8 +150,8 @@ Game.prototype.update = function(){
 		 */
 		if(this.role ==1 && this.players[0].state !== "over"){
 			this.ui.update(this.players[0]);
-		}else if(this.role ==2 && this.players[1].state !== "over"){
-			this.ui.update(this.players[1]);
+		}else if(this.role ==2 && this.players[0].state !== "over"){
+			this.ui.update(this.players[0]);
 		}
 	}else if(this.state == "ready"){
 		this.renderer.render(this.scroller.stage);
@@ -175,10 +175,10 @@ Game.prototype.update = function(){
 Game.prototype.over = function(){
 	this.state = "over";
 	var _this = this;
-	var l = this.players.length;
-	for(let i = 0;i<l;i++){
-		this.players[i].stopRun(this.scroller,this.renderer);
-	}
+	// var l = this.players.length;
+	// for(let i = 0;i<l;i++){
+	// 	this.players[i].stopRun(this.scroller,this.renderer);
+	// }
 
 	webkitCancelAnimationFrame(this.timer);
 	this.timer = null;
@@ -194,21 +194,30 @@ Game.prototype.over = function(){
 
 
 	 if(this.type == 2){
+	
+
+	 	this.renderer.render(this.scroller.stage);
+
 	 	window.Interact.socket.emit("completeTime",{room_id:window.Interact.roomID,role:this.role,time:this.ui.getTime()});
 	 	window.Interact.socket.on("completed",function(data){
+
 	 		_this.otherTime = data.time;
 
-	 		this.scroller.stage.removeChildren();
+	 		_this.scroller.stage.removeChildren();
+
 			setTimeout(function(){
 				this.renderer.render(this.navStage)
 			}.bind(_this),2000);
-			this.showResult();
+
+			_this.showResult();
 	 	})
 	 }else{
+
 	 	this.scroller.stage.removeChildren();
 		setTimeout(function(){
 			this.renderer.render(this.navStage)
 		}.bind(this),2000);
+
 		this.showResult();
 	 }
 
@@ -254,7 +263,7 @@ Game.prototype.getRank = function(){
 	var _this = this;
 	if(this.type == 1){
 		array.push({
-			name:"main",
+			name:_this.role ==1?"main":"second",
 			time:_this.ui.getTime()
 		});
 		array.push({

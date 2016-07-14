@@ -108,6 +108,7 @@ Player.prototype.moveBack = function(){
 }
 
 Player.prototype.isMainPlayer = function(){
+	// return this == 
 	return (this.textureImg == "main_player" && this.role ==1)||(this.textureImg =="second_player"&&this.role ==2);
 }
 

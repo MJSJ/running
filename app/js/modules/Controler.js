@@ -4,8 +4,9 @@
 
 
 
-function Controler(game){
+function Controler(game,role){
 	this.game = game;
+	this.role = role;
 	this.preTime = 0;
 
 	this.addButtons();
@@ -41,7 +42,11 @@ Controler.prototype.speedUp = function(){
 
 	var speed = Controler.timeToSpeed(this.diffTime);
 
-	this.game.players[0].setSpeed(speed);
+	// if(this.role==1){
+		this.game.players[0].setSpeed(speed);
+	// }else{
+	// 	this.game.players[1].setSpeed(speed);
+	// }
 
 	this.preTime = this.currentTime;
 }

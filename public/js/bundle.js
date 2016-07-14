@@ -82,6 +82,7 @@ Main.prototype.toStart = function () {
 
     window.Interact.onMatched(function () {
       _this.setupGame();
+      _this.page1.stopAnimation();
       document.querySelector("#specification2").style.display = "none";
       document.querySelector("#match_success").style.display = "block";
 
@@ -183,8 +184,9 @@ module.exports = Buoy;
 
 // var Controler = require("./js")
 
-function Controler(game) {
+function Controler(game, role) {
 	this.game = game;
+	this.role = role;
 	this.preTime = 0;
 
 	this.addButtons();
@@ -217,7 +219,11 @@ Controler.prototype.speedUp = function () {
 
 	var speed = Controler.timeToSpeed(this.diffTime);
 
+	// if(this.role==1){
 	this.game.players[0].setSpeed(speed);
+	// }else{
+	// 	this.game.players[1].setSpeed(speed);
+	// }
 
 	this.preTime = this.currentTime;
 };
@@ -362,7 +368,7 @@ Game.prototype.init = function () {
 		stage.addChild(this.players[i]);
 	}
 
-	this.control = new Control(this);
+	this.control = new Control(this, this.role);
 
 	// show distance times
 	this.ui.addDistance();
@@ -444,7 +450,12 @@ Game.prototype.begin = function (fn) {
 Game.prototype.update = function () {
 	if (this.state == "begin") {
 		this.renderer.render(this.scroller.stage);
-		if (this.players[0].state !== "over") {
+		/**
+   * if main player has not completed
+   */
+		if (this.role == 1 && this.players[0].state !== "over") {
+			this.ui.update(this.players[0]);
+		} else if (this.role == 2 && this.players[0].state !== "over") {
 			this.ui.update(this.players[0]);
 		}
 	} else if (this.state == "ready") {
@@ -463,27 +474,48 @@ Game.prototype.update = function () {
 
 Game.prototype.over = function () {
 	this.state = "over";
-	var l = this.players.length;
-	for (var i = 0; i < l; i++) {
-		this.players[i].stopRun(this.scroller, this.renderer);
-	}
+	var _this = this;
+	// var l = this.players.length;
+	// for(let i = 0;i<l;i++){
+	// 	this.players[i].stopRun(this.scroller,this.renderer);
+	// }
 
 	webkitCancelAnimationFrame(this.timer);
 	this.timer = null;
 
 	window.main_player_time = this.ui.getTime();
 
-	this.scroller.stage.removeChildren();
-	setTimeout(function () {
-		this.renderer.render(this.navStage);
-	}.bind(this), 2000);
-
 	/**
   * post this time and role
   * 		wait the server return other time;
   */
 
-	this.showResult();
+	if (this.type == 2) {
+
+		this.renderer.render(this.scroller.stage);
+
+		window.Interact.socket.emit("completeTime", { room_id: window.Interact.roomID, role: this.role, time: this.ui.getTime() });
+		window.Interact.socket.on("completed", function (data) {
+
+			_this.otherTime = data.time;
+
+			_this.scroller.stage.removeChildren();
+
+			setTimeout(function () {
+				this.renderer.render(this.navStage);
+			}.bind(_this), 2000);
+
+			_this.showResult();
+		});
+	} else {
+
+		this.scroller.stage.removeChildren();
+		setTimeout(function () {
+			this.renderer.render(this.navStage);
+		}.bind(this), 2000);
+
+		this.showResult();
+	}
 };
 
 Game.prototype.showResult = function () {
@@ -520,7 +552,7 @@ Game.prototype.getRank = function () {
 	var _this = this;
 	if (this.type == 1) {
 		array.push({
-			name: "main",
+			name: _this.role == 1 ? "main" : "second",
 			time: _this.ui.getTime()
 		});
 		array.push({
@@ -534,11 +566,11 @@ Game.prototype.getRank = function () {
 	} else if (this.type == 2) {
 		array.push({
 			name: "main",
-			time: _this.role == 1 ? _this.ui.getTime() : _this.getOtherTime()
+			time: _this.role == 1 ? _this.ui.getTime() : _this.otherTime
 		});
 		array.push({
 			name: "second",
-			time: _this.role == 2 ? _this.ui.getTime() : _this.getOtherTime()
+			time: _this.role == 2 ? _this.ui.getTime() : _this.otherTime
 		});
 		array.push({
 			name: "npc",
@@ -1019,6 +1051,7 @@ Player.prototype.moveBack = function () {
 };
 
 Player.prototype.isMainPlayer = function () {
+	// return this ==
 	return this.textureImg == "main_player" && this.role == 1 || this.textureImg == "second_player" && this.role == 2;
 };
 
@@ -1081,6 +1114,7 @@ var F_POSITION = 350;
 var S_POSITION = F_POSITION + 52;
 var T_POSITION = S_POSITION + 52;
 var X_POSITION = 50;
+var OFFSET = 180;
 
 function PlayerFactory(role, type) {
 	this.role = role;
@@ -1095,9 +1129,29 @@ PlayerFactory.FAST_TIME = Player.FAST_TIME = 9.58;
 PlayerFactory.NORMAL_TIME = Player.NORMAL_TIME = 13;
 // PlayerFactory.NORMAL_SPEED = 10.4384;
 
-PlayerFactory.prototype.createMainPlayer = function () {
+/**
+ * -230
+ * @Author   yursile
+ * @DateTime 2016-07-14T21:14:50+0800
+ * @param    {[type]}                 speed [description]
+ * @return   {[type]}                       [description]
+ */
+PlayerFactory.prototype.createMainPlayer = function (speed) {
+	if (this.type == 2) {
 
-	var player = new Player(this.role, X_POSITION - 230, F_POSITION, this.role == 1 ? "main_player" : "second_player");
+		if (this.role == 1) {
+			var player = new Player(this.role, X_POSITION - OFFSET, F_POSITION, "main_player");
+		} else {
+			var player = new Player(this.role, X_POSITION - OFFSET, F_POSITION, "main_player", speed);
+		}
+	} else {
+		if (this.role == 1) {
+			var player = new Player(this.role, X_POSITION - OFFSET, F_POSITION, "main_player");
+		} else {
+			var player = new Player(this.role, X_POSITION, F_POSITION, "npc_player", speed);
+		}
+	}
+
 	this.players.push(player);
 };
 
@@ -1110,9 +1164,18 @@ PlayerFactory.prototype.createSecondPlayer = function (speed) {
 	// }
 
 	if (this.type == 1) {
-		player = new Player(this.role, X_POSITION, S_POSITION, "npc_player", speed);
+		if (this.role == 1) {
+			player = new Player(this.role, X_POSITION, S_POSITION, "npc_player", speed);
+		} else {
+			player = new Player(this.role, X_POSITION - OFFSET, S_POSITION, "second_player");
+		}
 	} else if (this.type == 2) {
-		player = new Player(this.role, X_POSITION, S_POSITION, this.role == 1 ? "second_player" : "main_player", speed);
+		if (this.role == 1) {
+			player = new Player(this.role, X_POSITION - OFFSET, S_POSITION, "second_player", speed);
+		} else {
+			player = new Player(this.role, X_POSITION - OFFSET, S_POSITION, "second_player");
+		}
+		// player = new Player(this.role,X_POSITION,S_POSITION,(this.role == 1?"second_player":"main_player"),speed);
 	}
 
 	this.players.push(player);
@@ -1124,17 +1187,30 @@ PlayerFactory.prototype.createThirdPlayer = function (speed) {
 };
 
 PlayerFactory.prototype.getSinglePlayer = function () {
-	this.createMainPlayer();
-	this.createSecondPlayer(PlayerFactory.FAST_SPEED);
-	this.createThirdPlayer(PlayerFactory.NORMAL_SPEED);
+
+	if (this.role == 1) {
+		this.createMainPlayer();
+		this.createSecondPlayer(PlayerFactory.FAST_SPEED);
+		this.createThirdPlayer(PlayerFactory.NORMAL_SPEED);
+	} else {
+		this.createSecondPlayer();
+		this.createMainPlayer(PlayerFactory.FAST_SPEED);
+		this.createThirdPlayer(PlayerFactory.NORMAL_SPEED);
+	}
 
 	return this.players;
 };
 
 PlayerFactory.prototype.getDoublePlayer = function () {
-	this.createMainPlayer();
-	this.createSecondPlayer(PlayerFactory.NORMAL_SPEED);
-	this.createThirdPlayer(PlayerFactory.NORMAL_SPEED);
+	if (this.role == 1) {
+		this.createMainPlayer();
+		this.createSecondPlayer(PlayerFactory.NORMAL_SPEED);
+		this.createThirdPlayer(PlayerFactory.NORMAL_SPEED);
+	} else {
+		this.createSecondPlayer();
+		this.createMainPlayer(PlayerFactory.NORMAL_SPEED);
+		this.createThirdPlayer(PlayerFactory.NORMAL_SPEED);
+	}
 
 	return this.players;
 };
