@@ -27,8 +27,19 @@ Main.prototype.loadSpriteSheet = function () {
   var assetsToLoad = ["img/page1.json", 'img/icons.json', "img/players.json"];
   var loader = new PIXI.loaders.Loader();
   loader.add(assetsToLoad);
+  // loader.on("progress",this.loading);
   loader.once("complete", this.spriteSheetLoaded.bind(this));
   loader.load();
+};
+
+/**
+ * [loading description]
+ * @Author   yursile
+ * @DateTime 2016-07-15T16:16:43+0800
+ * @return   {[type]}                 [description]
+ */
+Main.prototype.loading = function (data) {
+  console.log(data);
 };
 
 Main.prototype.spriteSheetLoaded = function () {
@@ -393,9 +404,10 @@ Game.prototype.init = function () {
 Game.prototype.ready = function (again) {
 	var _this = this;
 	this.state = "ready";
+	var cdt = this.role == 1 ? "countDown" : "countDown2_";
 	var countDowns = [];
 	for (var i = 1; i < 5; i++) {
-		var texture = PIXI.Texture.fromFrame("countDown" + i);
+		var texture = PIXI.Texture.fromFrame(cdt + i);
 		countDowns.push(texture);
 		// let sprite = PIXI.Sprite.fromFrame("countDown"+i);
 		// countDowns.push(sprite);
@@ -531,12 +543,21 @@ Game.prototype.showResult = function () {
 
 	//comment
 	var comment = "";
-	if (main_player_time < 9.58) {
-		comment = "和您比起来，世界飞人博尔特都甘拜下风";
-	} else if (main_player_time >= 9.58 && main_player_time < 13) {
-		comment = "跑出了国家运动员的水准";
+	if (this.type == 1) {
+
+		if (main_player_time < 9.58) {
+			comment = "和您比起来，世界飞人博尔特都甘拜下风";
+		} else if (main_player_time >= 9.58 && main_player_time < 13) {
+			comment = "跑出了国家运动员的水准";
+		} else {
+			comment = "是时候该节食了";
+		}
 	} else {
-		comment = "是时候该节食了";
+		if (main_player_time > this.otherTime) {
+			comment = "兄弟，再来一局如何呀！！";
+		} else {
+			comment = "兄弟，今晚烤串我包啦！！";
+		}
 	}
 
 	document.querySelector(".doc").innerHTML = comment;
@@ -580,17 +601,18 @@ Game.prototype.getRank = function () {
 
 	var swap = {};
 	for (var i = 1; i < array.length; i++) {
-		if (array[i].time < array[i - 1].time) {
+		if (array[i].time < array[0].time) {
 			swap.time = array[i].time;
-			array[i].time = array[i - 1].time;
-			array[i - 1].time = swap.time;
+			array[i].time = array[0].time;
+			array[0].time = swap.time;
 
 			swap.name = array[i].name;
-			array[i].name = array[i - 1].name;
-			array[i - 1].name = swap.name;
+			array[i].name = array[0].name;
+			array[0].name = swap.name;
 		}
 	}
-	if (array[1] > array[2]) {
+
+	if (array[1].time > array[2].time) {
 		swap.time = array[1].time;
 		array[1].time = array[2].time;
 		array[2].time = swap.time;
@@ -745,8 +767,10 @@ Page1.CAMERA_MAX_Y = 530;
 
 Page1.prototype.addTitle = function () {
 	this.title = new PIXI.Sprite.fromFrame("title1");
+	// this.title.position.y = 68;
+	// this.title.position.x = 48;
 	this.title.position.y = 68;
-	this.title.position.x = 48;
+	this.title.position.x = 700;
 	this.stage.addChild(this.title);
 };
 
@@ -871,6 +895,7 @@ Page1.prototype.update = function () {
 	this.updateRear();
 	// this.update
 
+	this.updateTitle();
 	this.takePhoto();
 	this.updating();
 };
@@ -882,6 +907,13 @@ Page1.prototype.updating = function () {
 };
 
 Page1.prototype.start = function () {};
+
+Page1.prototype.updateTitle = function () {
+	var tween = new TWEEN.Tween(this.title.position);
+	tween.to({ x: 68, y: 48 }, 1000);
+	tween.easing(TWEEN.Easing.Elastic.InOut);
+	tween.start();
+};
 
 Page1.prototype.updateCloud = function () {
 	var tween = new TWEEN.Tween(this.clouds.position);
@@ -1302,9 +1334,9 @@ var counter = 0;
 var isGenerated = false;
 // ws.a.sohu.com
 var Interact = window.Interact = {
-    host: 'ws://10.2.24.81:',
-    port: 3000,
-    url: 'http://10.2.24.81',
+    host: 'ws://wlf.news.sohu.com:',
+    port: 80,
+    url: 'http://wlf.news.sohu.com',
     // 连接房间
     registerRoom: function registerRoom(rid) {
         var _this = this;

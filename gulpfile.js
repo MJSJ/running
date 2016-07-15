@@ -87,7 +87,7 @@ gulp.task("cssmin",function(){
 });
 
 gulp.task("uglyfly",function(){
-  gulp.src(['./public/js/bundle.js','!./public/js/bundle.min.js']).
+  gulp.src(['./public/js/*.js','!./public/js/*.min.js']).
   pipe(uglyfly()).
   pipe(rename({suffix: '.min'})).
   pipe(gulp.dest('./public/js'))

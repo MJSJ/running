@@ -5,49 +5,56 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 
 
-  <link rel="stylesheet" type="text/css" href="./css/style.css">
+  <link rel="stylesheet" type="text/css" href="http://sports.sohu.com/upload/yursile/running1/css/style.css">
 
   <style type="text/css">
     /*声明 WebFont*/
 @font-face {
-  font-family: '方正兰亭黑_GBK';
-  src: url('./font/方正兰亭黑_GBK.eot');
+  font-family: 'FZLTH';
+  src: url('http://sports.sohu.com/upload/yursile/running1/font/FZLTH.eot');
   src:
-    url('./font/方正兰亭黑_GBK.eot?#font-spider') format('embedded-opentype'),
-    url('./font/方正兰亭黑_GBK.woff') format('woff'),
-    url('./font/方正兰亭黑_GBK.ttf') format('truetype'),
-    url('./font/方正兰亭黑_GBK.svg') format('svg');
+    url('http://sports.sohu.com/upload/yursile/running1/font/FZLTH.eot?#font-spider') format('embedded-opentype'),
+    url('http://sports.sohu.com/upload/yursile/running1/font/FZLTH.woff') format('woff'),
+    url('http://sports.sohu.com/upload/yursile/running1/font/FZLTH.ttf') format('truetype'),
+    url('http://sports.sohu.com/upload/yursile/running1/font/FZLTH.svg') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
 
 @font-face {
-  font-family: '兰亭粗黑';
-  src: url('./font/兰亭粗黑.eot');
+  font-family: 'FZLTCH';
+  src: url('http://sports.sohu.com/upload/yursile/running1/font/FZLTCH.eot');
   src:
-    url('./font/兰亭粗黑.eot?#font-spider') format('embedded-opentype'),
-    url('./font/兰亭粗黑.woff') format('woff'),
-    url('./font/兰亭粗黑.ttf') format('truetype'),
-    url('./font/兰亭粗黑.svg') format('svg');
+    url('http://sports.sohu.com/upload/yursile/running1/font/FZLTCH.eot?#font-spider') format('embedded-opentype'),
+    url('http://sports.sohu.com/upload/yursile/running1/font/FZLTCH.woff') format('woff'),
+    url('http://sports.sohu.com/upload/yursile/running1/font/FZLTCH.ttf') format('truetype'),
+    url('http://sports.sohu.com/upload/yursile/running1/font/FZLTCH.svg') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
 /*使用选择器指定字体*/
 body{
-    font-family: '方正兰亭黑_GBK';
+    font-family: 'FZLTH';
 }
 
 
 #result{
-  font-family: '兰亭粗黑';
+  font-family: 'FZLTCH';
 }
   </style>
-  <title>soojung</title>
+  <title>奥运会跑步</title>
+
 </head>
 
+  <script src="http://news.sohu.com/upload/yifengjiashuzzx/js/preload.js"></script>
+
 <body ontouchmove="event.preventDefault();" >
+  <div class="loading">
+    <div class="loading_player"></div>
+    <div class="progress-num">0%</div>
+  </div>
   <div class="all" id="all"></div> 
   <script type="text/javascript">
 
@@ -68,11 +75,39 @@ body{
       return this;
     }
 
+
+
+
+  new pageUtil(".loading").response();
+    var loader = new resLoader({
+    resources: [
+      'http://sports.sohu.com/upload/yursile/running1/img/players.png',
+      'http://sports.sohu.com/upload/yursile/running1/img/icons.png',
+      'http://sports.sohu.com/upload/yursile/running1/img/page1.png',
+      'http://sports.sohu.com/upload/yursile/running1/img/resultbg.png',
+      'http://sports.sohu.com/upload/yursile/running1/img/results.png',
+    ],
+    onStart: function(total) {},
+    onProgress: function(current, total) {
+      var percent = parseInt(current / total * 100) + '%';
+      document.querySelector('.progress-num').innerHTML = percent;
+    
+    },
+    onComplete: function(total) {
+      
+      document.querySelector('.loading').style.display = "none";
+    }
+  });
+  loader.start();
+
       window.pas = new pageUtil(".all");
       pas.response();
 
+
      
   </script>
+
+
 
   <div id="specification1">
     <div class="close"></div>
@@ -113,13 +148,14 @@ body{
 
 
   <div id="match_success">
-    <div class="close"></div>
+    <div class="run"></div>
+ <!--    <div class="close"></div>
     <div class="success_flag"></div>
-    <div class="success_doc">链 接 成 功</div>
+    <div class="success_doc">链 接 成 功</div> -->
   </div>
 
   <div id="result">
-    <div style="display:none">0123456789.跑出了国家运动员的水准~~是时候该节食了~~兄弟，今晚烤串我包啦！！兄弟，今晚烤串我包啦！！</div>
+    <div style="display:none">0123456789.跑出了国家运动员的水准~~是时候该节食了~~兄弟，今晚烤串我包啦！！兄弟，再来一局如何呀！!</div>
     <div class="wrapper">
       <div id="time">9.57</div>
       <div class="doc">和您比起来，世界飞人博尔特都甘拜下风</div>
@@ -172,7 +208,11 @@ body{
       window.game.ready();
   },false);
 
-  document.querySelector("#match_success .close").addEventListener("click",function(){
+  // document.querySelector("#match_success .close").addEventListener("click",function(){
+  //     window.game.readyToPlay();
+  // },false);
+
+  document.querySelector(".run").addEventListener("click",function(){
       window.game.readyToPlay();
   },false);
 
@@ -201,7 +241,7 @@ body{
 
 
 </script>
-<script type="text/javascript" src="./js/qrcode.min.js"></script>
-<script type="text/javascript" src="./js/bundle.js"></script>
+<script type="text/javascript" src="http://sports.sohu.com/upload/yursile/running1/js/qrcode.min.js"></script>
+<script type="text/javascript" src="http://sports.sohu.com/upload/yursile/running1/js/bundle.min.js"></script>
 
 </html>

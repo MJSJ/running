@@ -45,8 +45,10 @@ Page1.CAMERA_MAX_Y = 530;
 
 Page1.prototype.addTitle = function(){
 	this.title = new PIXI.Sprite.fromFrame("title1");
+	// this.title.position.y = 68;
+	// this.title.position.x = 48;
 	this.title.position.y = 68;
-	this.title.position.x = 48;
+	this.title.position.x = 700;
 	this.stage.addChild(this.title);
 }
 
@@ -157,6 +159,7 @@ Page1.prototype.addDouble = function(){
 
 }
 
+
 Page1.prototype.addFigurePlayer = function(){
 	var textureArray = [];
 	for (let i=1; i < 3; i++)
@@ -179,7 +182,7 @@ Page1.prototype.update = function(){
 	this.updateRear();
 	// this.update
 
-
+	this.updateTitle();
 	this.takePhoto();
 	this.updating();
 	
@@ -194,6 +197,13 @@ Page1.prototype.updating = function(){
 
 Page1.prototype.start = function(){
 
+}
+
+Page1.prototype.updateTitle = function(){
+	var tween = new TWEEN.Tween(this.title.position);
+	tween.to({x:68,y:48},1000);
+	tween.easing(TWEEN.Easing.Elastic.InOut)
+	tween.start();
 }
 
 

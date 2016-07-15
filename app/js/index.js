@@ -26,8 +26,21 @@ Main.prototype.loadSpriteSheet = function(){
   var assetsToLoad = ["img/page1.json",'img/icons.json',"img/players.json"];
   var loader = new PIXI.loaders.Loader();
   loader.add(assetsToLoad);
+  // loader.on("progress",this.loading);
   loader.once("complete",this.spriteSheetLoaded.bind(this));
   loader.load();
+  
+}
+
+/**
+ * [loading description]
+ * @Author   yursile
+ * @DateTime 2016-07-15T16:16:43+0800
+ * @return   {[type]}                 [description]
+ */     
+Main.prototype.loading = function(data){
+  console.log(data);
+
 }
 
 

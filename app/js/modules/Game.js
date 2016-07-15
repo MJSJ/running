@@ -74,10 +74,11 @@ Game.prototype.init = function(){
 Game.prototype.ready = function(again){
 	var _this = this;
 	this.state = "ready";
+	var cdt = (this.role==1?"countDown":"countDown2_");
 	var countDowns = [];
 	for (let i=1; i < 5; i++)
 	{
-	     let texture = PIXI.Texture.fromFrame("countDown"+i);
+	     let texture = PIXI.Texture.fromFrame(cdt+i);
 	     countDowns.push(texture);
 	     // let sprite = PIXI.Sprite.fromFrame("countDown"+i);
 	     // countDowns.push(sprite);
@@ -238,14 +239,22 @@ Game.prototype.showResult = function(){
 
 	//comment
 	var comment = "";
-	if(main_player_time<9.58){
-		comment = "和您比起来，世界飞人博尔特都甘拜下风"
-	}else if(main_player_time>=9.58&&main_player_time<13){
-		comment = "跑出了国家运动员的水准"
-	}else{
-		comment = "是时候该节食了"
-	}
+	if(this.type == 1){
 
+		if(main_player_time<9.58){
+			comment = "和您比起来，世界飞人博尔特都甘拜下风"
+		}else if(main_player_time>=9.58&&main_player_time<13){
+			comment = "跑出了国家运动员的水准"
+		}else{
+			comment = "是时候该节食了"
+		}
+	}else {
+		if(main_player_time>this.otherTime){
+			comment = "兄弟，再来一局如何呀！！"
+		}else{
+			comment = "兄弟，今晚烤串我包啦！！"
+		}
+	}
 
 	document.querySelector(".doc").innerHTML = comment;
 	document.querySelector("#time").innerHTML = main_player_time+"s";
@@ -293,17 +302,20 @@ Game.prototype.getRank = function(){
 
 	var swap = {};
 	for(var i=1;i<array.length;i++){
-		if(array[i].time < array[i-1].time){
+		if(array[i].time < array[0].time){
 			swap.time = array[i].time;
-			array[i].time = array[i-1].time;
-			array[i-1].time = swap.time; 
+			array[i].time = array[0].time;
+			array[0].time = swap.time; 
 
 			swap.name = array[i].name;
-			array[i].name = array[i-1].name;
-			array[i-1].name = swap.name; 
+			array[i].name = array[0].name;
+			array[0].name = swap.name; 
 		}
+
 	}
-	if(array[1]>array[2]){
+
+
+	if(array[1].time>array[2].time){
 		swap.time = array[1].time;
 		array[1].time = array[2].time;
 		array[2].time = swap.time; 

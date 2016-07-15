@@ -6,9 +6,9 @@ var counter = 0;
 var isGenerated = false;
 // ws.a.sohu.com
 var Interact = window.Interact = {
-    host: 'ws://10.2.24.81:',
-    port: 3000,
-    url: 'http://10.2.24.81',
+    host: 'ws://wlf.news.sohu.com:',
+    port: 80,
+    url: 'http://wlf.news.sohu.com',
     // 连接房间
     registerRoom: function (rid) {
         var _this = this;
