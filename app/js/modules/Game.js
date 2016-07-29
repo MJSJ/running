@@ -239,22 +239,33 @@ Game.prototype.showResult = function(){
 
 	//comment
 	var comment = "";
-	if(this.type == 1){
+	// if(this.type == 1){
 
 		if(main_player_time<9.58){
-			comment = "和您比起来，世界飞人博尔特都甘拜下风"
-		}else if(main_player_time>=9.58&&main_player_time<13){
-			comment = "跑出了国家运动员的水准"
+			comment = "和您比起来，世界飞人博尔特都甘拜下风!"
+		}else if(main_player_time>=9.58&&main_player_time<10){
+			comment = "险些超越博尔特!"
+		}else if(main_player_time>=10&&main_player_time<12){
+			comment = "已达到专业运动员水平!"
+		}else if(main_player_time>=12&&main_player_time<13){
+			comment = "跑出了国家运动员的水平！"
+		}else if(main_player_time>=13&&main_player_time<15){
+			comment = "跑出了初中生的水平⋯⋯"
+		}
+		else if(main_player_time>=15&&main_player_time<18){
+			comment = "跑出了小学生的水平⋯⋯"
+		}else if(main_player_time>=18&&main_player_time<35){
+			comment = "跑出了幼儿园小盆友的水平⋯⋯"
 		}else{
 			comment = "是时候该节食了"
 		}
-	}else {
-		if(main_player_time>this.otherTime){
-			comment = "兄弟，再来一局如何呀！！"
-		}else{
-			comment = "兄弟，今晚烤串我包啦！！"
-		}
-	}
+	
+
+	/**
+	 * share content
+	 */
+	
+	window.shareDetail.content = "我的百米跑用时"+main_player_time+"秒，"+comment;
 
 	document.querySelector(".doc").innerHTML = comment;
 	document.querySelector("#time").innerHTML = main_player_time+"s";

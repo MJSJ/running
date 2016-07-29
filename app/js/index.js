@@ -110,9 +110,6 @@ Main.prototype.toStart = function(){
 
 Main.prototype.setupGame = function(){
 
-  // if(this.game){
-  //   this.reSetupGame();
-  // }else{
 
     this.scroller = new Scroller(this.stage);
     this.ui = new UI(this.stage);

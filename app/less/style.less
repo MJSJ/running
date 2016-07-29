@@ -8,6 +8,17 @@ body,html,#all,.main,.wrap{
   padding:0;
 }
 
+.abs(@l:0,@t:0){
+  position: absolute;
+  left: @l;
+  top:@t;
+}
+.abs_box(@t:0){
+  .abs(0,@t);
+  right: 0;
+  margin: auto;
+}
+
 #result{
   position: absolute;
   left: 0;
@@ -160,7 +171,7 @@ body,html,#all,.main,.wrap{
   top:0;
   z-index: 100;
   display: none;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.7);
 
   .shareFlag{
     width: 54px;
@@ -170,6 +181,15 @@ body,html,#all,.main,.wrap{
     top:20px;
     background: url(../img/icons.png) no-repeat;
     background-position: -1000px -200px;
+  }
+
+  .share_ewm{
+    .abs_box(450px);
+    width: 280px;
+    height: 328px;
+    img{
+      width: 100%;
+    }
   }
 }
 
@@ -203,6 +223,7 @@ body,html,#all,.main,.wrap{
   color:#fff;
   top: 378px;
   width: 100%;
+  line-height:41px;
 }
 
 #specification1{

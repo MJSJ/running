@@ -5,18 +5,18 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 
 
-  <link rel="stylesheet" type="text/css" href="http://sports.sohu.com/upload/yursile/running1/css/style.css">
+  <link rel="stylesheet" type="text/css" href="http://sports.sohu.com/upload/yursile/runt/css/style.css">
 
   <style type="text/css">
     /*声明 WebFont*/
 @font-face {
   font-family: 'FZLTH';
-  src: url('http://sports.sohu.com/upload/yursile/running1/font/FZLTH.eot');
+  src: url('http://sports.sohu.com/upload/yursile/runt/font/FZLTH.eot');
   src:
-    url('http://sports.sohu.com/upload/yursile/running1/font/FZLTH.eot?#font-spider') format('embedded-opentype'),
-    url('http://sports.sohu.com/upload/yursile/running1/font/FZLTH.woff') format('woff'),
-    url('http://sports.sohu.com/upload/yursile/running1/font/FZLTH.ttf') format('truetype'),
-    url('http://sports.sohu.com/upload/yursile/running1/font/FZLTH.svg') format('svg');
+    url('http://sports.sohu.com/upload/yursile/runt/font/FZLTH.eot?#font-spider') format('embedded-opentype'),
+    url('http://sports.sohu.com/upload/yursile/runt/font/FZLTH.woff') format('woff'),
+    url('http://sports.sohu.com/upload/yursile/runt/font/FZLTH.ttf') format('truetype'),
+    url('http://sports.sohu.com/upload/yursile/runt/font/FZLTH.svg') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,12 +24,12 @@
 
 @font-face {
   font-family: 'FZLTCH';
-  src: url('http://sports.sohu.com/upload/yursile/running1/font/FZLTCH.eot');
+  src: url('http://sports.sohu.com/upload/yursile/runt/font/FZLTCH.eot');
   src:
-    url('http://sports.sohu.com/upload/yursile/running1/font/FZLTCH.eot?#font-spider') format('embedded-opentype'),
-    url('http://sports.sohu.com/upload/yursile/running1/font/FZLTCH.woff') format('woff'),
-    url('http://sports.sohu.com/upload/yursile/running1/font/FZLTCH.ttf') format('truetype'),
-    url('http://sports.sohu.com/upload/yursile/running1/font/FZLTCH.svg') format('svg');
+    url('http://sports.sohu.com/upload/yursile/runt/font/FZLTCH.eot?#font-spider') format('embedded-opentype'),
+    url('http://sports.sohu.com/upload/yursile/runt/font/FZLTCH.woff') format('woff'),
+    url('http://sports.sohu.com/upload/yursile/runt/font/FZLTCH.ttf') format('truetype'),
+    url('http://sports.sohu.com/upload/yursile/runt/font/FZLTCH.svg') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -44,7 +44,8 @@ body{
   font-family: 'FZLTCH';
 }
   </style>
-  <title>奥运会跑步</title>
+  <title>挑战博尔特！与百米世界冠军比赛跑
+</title>
 
 </head>
 
@@ -81,11 +82,11 @@ body{
   new pageUtil(".loading").response();
     var loader = new resLoader({
     resources: [
-      'http://sports.sohu.com/upload/yursile/running1/img/players.png',
-      'http://sports.sohu.com/upload/yursile/running1/img/icons.png',
-      'http://sports.sohu.com/upload/yursile/running1/img/page1.png',
-      'http://sports.sohu.com/upload/yursile/running1/img/resultbg.png',
-      'http://sports.sohu.com/upload/yursile/running1/img/results.png',
+      'http://sports.sohu.com/upload/yursile/runt/img/players.png',
+      'http://sports.sohu.com/upload/yursile/runt/img/icons.png',
+      'http://sports.sohu.com/upload/yursile/runt/img/page1.png',
+      'http://sports.sohu.com/upload/yursile/runt/img/resultbg.png',
+      'http://sports.sohu.com/upload/yursile/runt/img/results.png',
     ],
     onStart: function(total) {},
     onProgress: function(current, total) {
@@ -110,7 +111,7 @@ body{
 
 
   <div id="specification1">
-    <div class="close"></div>
+    <div class="run" style="top:600px"></div>
     <div class="detail">玩法说明</div>
     <div class="title">单人玩家</div>
     
@@ -155,7 +156,7 @@ body{
   </div>
 
   <div id="result">
-    <div style="display:none">0123456789.跑出了国家运动员的水准~~是时候该节食了~~兄弟，今晚烤串我包啦！！兄弟，再来一局如何呀！!</div>
+    <div style="display:none">0123456789.跑出了国家运动员的水准~~是时候该节食了~~和您比起来，世界飞人博尔特都甘拜下风险些超越博尔特已达到专业运动员水平跑出了国家运动员的水平！跑出了初中生的水平⋯⋯跑出了小学生的水平⋯⋯跑出了幼儿园小盆友的水平⋯⋯是时候该节食了</div>
     <div class="wrapper">
       <div id="time">9.57</div>
       <div class="doc">和您比起来，世界飞人博尔特都甘拜下风</div>
@@ -182,6 +183,9 @@ body{
 
     <div class="shareCover">
         <div class="shareFlag"></div>
+        <div class="share_ewm">
+          <img src="http://sports.sohu.com/upload/yursile/runt/img/ewm.png" alt="">
+        </div>
     </div>
   </div>
 
@@ -196,29 +200,27 @@ body{
   new pageUtil("#specification1").response();
   new pageUtil("#specification2").response();
   new pageUtil("#match_success").response();
-  document.querySelector(".agian").addEventListener("click",function(){
+  document.querySelector(".agian").addEventListener("touchstart",function(){
     document.querySelector("#result").style.display = "none";
     // window.game.reInit();
     window.main.page1.updating();
   },false);
 
 
-  document.querySelector("#specification1 .close").addEventListener("click",function(){
+  document.querySelector("#specification1 .run").addEventListener("touchstart",function(){
       document.querySelector("#specification1").style.display = "none";
       window.game.ready();
   },false);
 
-  // document.querySelector("#match_success .close").addEventListener("click",function(){
-  //     window.game.readyToPlay();
-  // },false);
 
-  document.querySelector(".run").addEventListener("click",function(){
+  document.querySelector("#specification2 .close").addEventListener("touchstart",function(){
+      document.querySelector("#specification2").style.display = "none";
+  },false);
+
+  document.querySelector("#match_success .run").addEventListener("click",function(){
       window.game.readyToPlay();
   },false);
 
-  document.querySelector("#specification2 .close").addEventListener("click",function(){
-      document.querySelector("#specification2").style.display = "none";
-  },false);
 
   document.querySelector(".basketbal").addEventListener("click",function(){
     document.location.href = this.dataset.url;
@@ -227,11 +229,11 @@ body{
     document.location.href = this.dataset.url;
   },false)
 
-  document.querySelector(".share").addEventListener("click",function(){
+  document.querySelector(".share").addEventListener("touchstart",function(){
     document.querySelector(".shareCover").style.display= "block";
   },false)
 
-  document.querySelector(".shareCover").addEventListener("click",function(){
+  document.querySelector(".shareCover").addEventListener("touchstart",function(){
     document.querySelector(".shareCover").style.display= "none";
   },false)
 
@@ -241,7 +243,96 @@ body{
 
 
 </script>
-<script type="text/javascript" src="http://sports.sohu.com/upload/yursile/running1/js/qrcode.min.js"></script>
-<script type="text/javascript" src="http://sports.sohu.com/upload/yursile/running1/js/bundle.min.js"></script>
+<script type="text/javascript" src="http://sports.sohu.com/upload/yursile/runt/js/qrcode.min.js"></script>
+<script type="text/javascript" src="http://sports.sohu.com/upload/yursile/runt/js/bundle.min.js"></script>
 
+
+<!-- 分享 -->
+  <script src="http://news.sohu.com/upload/commonzzx/share.js"></script>
+  <!-- 统计流量 -->
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "http://hm.baidu.com/hm.js?c154d502f02b12a996c34a02281a3bff";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+  </script>
+
+  <script>
+    appid = "";
+    gSound = '';
+    var shareDetail = {
+    'imgUrl': 'http:'+'//news.sohu.com/upload/sharepic/run.png',
+    'link':  window.location.href.slice(0,window.location.href.indexOf("?"))+"/",
+    'title': '你能超过博尔特9秒58的人类极限吗？',
+    'content': '挑战博尔特！与百米世界冠军比赛跑'
+  }
+
+  function shareFriend() {
+    WeixinJSBridge.invoke("sendAppMessage", {
+      appid: appid,
+      img_url: shareDetail.imgUrl,
+      img_width: "200",
+      img_height: "200",
+      link: shareDetail.link,
+      desc: shareDetail.content,
+      title: shareDetail.title
+    }, function(b) {})
+  }
+
+  function shareTimeline() {
+    WeixinJSBridge.invoke("shareTimeline", {
+      appid: appid,
+      img_url: shareDetail.imgUrl,
+      img_width: "200",
+      img_height: "200",
+      link: shareDetail.link,
+      desc: shareDetail.content,
+      title: shareDetail.content
+    }, function(b) {})
+  }
+
+  function shareWeibo() {
+    WeixinJSBridge.invoke("shareWeibo", {
+      content: shareDetail.content,
+      url: shareDetail.link
+    }, function(b) {})
+  }
+  document.addEventListener("WeixinJSBridgeReady", function onBridgeReady() {
+    WeixinJSBridge.on("menu:share:appmessage", function(b) {
+      shareFriend();
+    });
+    WeixinJSBridge.on("menu:share:timeline", function(b) {
+      shareTimeline();
+    });
+    WeixinJSBridge.on("menu:share:weibo", function(b) {
+      shareWeibo();
+    })
+  }, false);
+
+  
+  </script>
+
+  <script language="javascript" src="http://a1.itc.cn/pv/js/spv.1309051632.js"></script>
+  <script language="javascript" src="http://js.sohu.com/wrating20120726.js"></script>
+  <script language="javascript"> 
+    var  _wratingId = null;
+    try{
+    _wratingId = _getAcc();
+    }catch(e){}
+    if(_wratingId !=null){
+    document.write('<scr'+'ipt type="text/javascript" src="http://sohu.wrating.com/a1.js"></scr'+'ipt>');
+    }
+    </script>
+    <script language="javascript"> 
+    if(_wratingId !=null){
+    document.write('<scr'+'ipt type="text/javascript">');
+    document.write('var vjAcc="'+_wratingId+'";');
+    document.write('var wrUrl="http://sohu.wrating.com/";');
+    document.write('try{vjTrack();}catch(e){}');
+    document.write('</scr'+'ipt>');
+    }
+  </script>
 </html>
