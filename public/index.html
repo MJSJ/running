@@ -5,18 +5,18 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 
 
-  <link rel="stylesheet" type="text/css" href="http://sports.sohu.com/upload/yursile/runt/css/style.css">
+  <link rel="stylesheet" type="text/css" href="./css/style.min.css">
 
   <style type="text/css">
     /*声明 WebFont*/
 @font-face {
   font-family: 'FZLTH';
-  src: url('http://sports.sohu.com/upload/yursile/runt/font/FZLTH.eot');
+  src: url('./font/FZLTH.eot');
   src:
-    url('http://sports.sohu.com/upload/yursile/runt/font/FZLTH.eot?#font-spider') format('embedded-opentype'),
-    url('http://sports.sohu.com/upload/yursile/runt/font/FZLTH.woff') format('woff'),
-    url('http://sports.sohu.com/upload/yursile/runt/font/FZLTH.ttf') format('truetype'),
-    url('http://sports.sohu.com/upload/yursile/runt/font/FZLTH.svg') format('svg');
+    url('./font/FZLTH.eot?#font-spider') format('embedded-opentype'),
+    url('./font/FZLTH.woff') format('woff'),
+    url('./font/FZLTH.ttf') format('truetype'),
+    url('./font/FZLTH.svg') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,12 +24,12 @@
 
 @font-face {
   font-family: 'FZLTCH';
-  src: url('http://sports.sohu.com/upload/yursile/runt/font/FZLTCH.eot');
+  src: url('./font/FZLTCH.eot');
   src:
-    url('http://sports.sohu.com/upload/yursile/runt/font/FZLTCH.eot?#font-spider') format('embedded-opentype'),
-    url('http://sports.sohu.com/upload/yursile/runt/font/FZLTCH.woff') format('woff'),
-    url('http://sports.sohu.com/upload/yursile/runt/font/FZLTCH.ttf') format('truetype'),
-    url('http://sports.sohu.com/upload/yursile/runt/font/FZLTCH.svg') format('svg');
+    url('./font/FZLTCH.eot?#font-spider') format('embedded-opentype'),
+    url('./font/FZLTCH.woff') format('woff'),
+    url('./font/FZLTCH.ttf') format('truetype'),
+    url('./font/FZLTCH.svg') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -82,11 +82,11 @@ body{
   new pageUtil(".loading").response();
     var loader = new resLoader({
     resources: [
-      'http://sports.sohu.com/upload/yursile/runt/img/players.png',
-      'http://sports.sohu.com/upload/yursile/runt/img/icons.png',
-      'http://sports.sohu.com/upload/yursile/runt/img/page1.png',
-      'http://sports.sohu.com/upload/yursile/runt/img/resultbg.png',
-      'http://sports.sohu.com/upload/yursile/runt/img/results.png',
+      'http://sports.sohu.com/upload/yursile/run0/img/players.png',
+      'http://sports.sohu.com/upload/yursile/run0/img/icons.png',
+      'http://sports.sohu.com/upload/yursile/run0/img/page1.png',
+      'http://sports.sohu.com/upload/yursile/run0/img/resultbg.png',
+      'http://sports.sohu.com/upload/yursile/run0/img/results.png'
     ],
     onStart: function(total) {},
     onProgress: function(current, total) {
@@ -177,14 +177,14 @@ body{
 
       <div class="agian"></div>
       <div class="share"></div>
-      <div class="basketbal" data-url="#"></div>
-      <div class="shooting" data-url="#"></div>
+      <div class="basketbal" data-url="http://m.sohu.com/c/19691/"></div>
+      <div class="shooting" data-url="http://m.sohu.com/c/19690/"></div>
     </div>
 
     <div class="shareCover">
         <div class="shareFlag"></div>
         <div class="share_ewm">
-          <img src="http://sports.sohu.com/upload/yursile/runt/img/ewm.png" alt="">
+          <img src="./img/ewm.png" alt="">
         </div>
     </div>
   </div>
@@ -243,8 +243,8 @@ body{
 
 
 </script>
-<script type="text/javascript" src="http://sports.sohu.com/upload/yursile/runt/js/qrcode.min.js"></script>
-<script type="text/javascript" src="http://sports.sohu.com/upload/yursile/runt/js/bundle.min.js"></script>
+<script type="text/javascript" src="./js/qrcode.min.js"></script>
+<script type="text/javascript" src="./js/bundle.min.js"></script>
 
 
 <!-- 分享 -->
@@ -265,9 +265,9 @@ body{
     gSound = '';
     var shareDetail = {
     'imgUrl': 'http:'+'//news.sohu.com/upload/sharepic/run.png',
-    'link':  window.location.href.slice(0,window.location.href.indexOf("?"))+"/",
-    'title': '你能超过博尔特9秒58的人类极限吗？',
-    'content': '挑战博尔特！与百米世界冠军比赛跑'
+    'link':  "http:"+"//m.sohu.com/c/19580/",
+    'title': '挑战博尔特！与百米世界冠军比赛跑',
+    'content': '你能超过博尔特9秒58的人类极限吗？'
   }
 
   function shareFriend() {
